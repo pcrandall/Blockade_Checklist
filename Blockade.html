@@ -77,7 +77,7 @@
         margin: auto;
         padding: 1vh 0vw 1vh 0vw;
         position: absolute;
-        top: 32.5%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         writing-mode: vertical-rl;
@@ -88,7 +88,8 @@
         background-color: #eaeaea;
         height: 100%;
         margin: .5em;
-        font: 1vw "Segoe UI", Arial, Helvetica, sans-serif;
+        font-size: calc(((.65vw + 6 * ((100vw - 680px)) / 680) + (.65vh + 6 * ((100vh - 680px) / 680))) / 2);
+        font:"Segoe UI", Arial, Helvetica, sans-serif;
     }
 
     p,
@@ -464,7 +465,7 @@
     </div>
     <div class="w3-row w3-panel ">
         <div class="w3-col m4 w3-grey w3-center">
-            <h4>Navette Location.</h4>
+            <h4>Navette Location</h4>
         </div>
         <div class="w3-col m4 w3-grey w3-center">
             <h4>Rack Location</h4>
@@ -473,8 +474,8 @@
             <h4>Select Blockade Checklist file.</h4>
         </div>
     </div>
-    <div class="w3-row">
-        <div class="w3-col s4 ">
+    <div class="w3-col s4 ">
+        <div class="w3-display-left w3-panel">
             <table class="w3-container container">
                 <tr>
                     <td rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />4</a></td>
@@ -566,66 +567,59 @@
                 </tr>
             </table>
         </div>
-        <div class="w3-col s4 w3-center w3-border">
-            <table class="w3-center container">
-                <tr>
-                    <td class="rack"><a>X18</a></td>
-                    <td class="rack"><a>X17</a></td>
-                    <td class="arrow"><a>&#8593</a></td>
-                    <td class="rack"><a>X27</a></td>
-                    <td class="rack"><a>X28</a></td>
-                </tr>
-                <tr>
-                    <td class="rack"><a>X16</a></td>
-                    <td class="rack"><a>X15</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
-                    <td class="rack"><a>X25</a></td>
-                    <td class="rack"><a>X26</a></td>
-                </tr>
-                <tr>
-                    <td class="rack"><a>X14</a></td>
-                    <td class="rack"><a>X13</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
-                    <td class="rack"><a>X23</a></td>
-                    <td class="rack"><a>X24</a></td>
-                </tr>
-                <tr>
-                    <td class="rack"><a>X12</a></td>
-                    <td class="rack"><a>X11</a></td>
-                    <td class="arrow"><a>&#8593</a></td>
-                    <td class="rack"><a>X21</a></td>
-                    <td class="rack"><a>X22</a></td>
-                </tr>
-                <tr>
-                    <td class="invisible_td"><a>60<br />84</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
-                </tr>
-                <div class="center">
-                    <p>AISLE</p>
-                </div>
-            </table>
-        </div>
-        <div class="w3-col m4 w3-grey w3-center">
-            <h4>Single Coordinate Check:</h4>
-            <input type="text" name="filename" value="" id="wbName" style="width: auto;">
-            </br>
-            <h4>Message:</h4>
-            <input type="text" name="filename" value="" id="wbName" style="width: auto;">
-            </br>
-            <input type="button" class="smbutton" value="Check Coordinate" onclick="parsefiles()">
-            </br>
-            </br>
+        <div class="w3-col s4 ">
+            <div class="w3-display-middle w3-panel">
+                <table class="w3-container container">
+                    <tr>
+                        <td class="rack"><a>X18</a></td>
+                        <td class="rack"><a>X17</a></td>
+                        <td class="arrow"><a>&#8593</a></td>
+                        <td class="rack"><a>X27</a></td>
+                        <td class="rack"><a>X28</a></td>
+                    </tr>
+                    <tr>
+                        <td class="rack"><a>X16</a></td>
+                        <td class="rack"><a>X15</a></td>
+                        <td class="invisible_td"><a>60<br />84</a></td>
+                        <td class="rack"><a>X25</a></td>
+                        <td class="rack"><a>X26</a></td>
+                    </tr>
+                    <tr>
+                        <td class="rack"><a>X14</a></td>
+                        <td class="rack"><a>X13</a></td>
+                        <td class="invisible_td"><a>60<br />84</a></td>
+                        <td class="rack"><a>X23</a></td>
+                        <td class="rack"><a>X24</a></td>
+                    </tr>
+                    <tr>
+                        <td class="rack"><a>X12</a></td>
+                        <td class="rack"><a>X11</a></td>
+                        <td class="arrow"><a>&#8593</a></td>
+                        <td class="rack"><a>X21</a></td>
+                        <td class="rack"><a>X22</a></td>
+                    </tr>
+                </table>
+                    <div class="center">
+                        <p>AISLE</p>
+                    </div>
+            </div>
         </div>
         <div class="w3-col s4 w3-center">
-            <div></div>
-            <h4>Select Blockade Checklist File:</h4>
-            <input class="file" id="file" type="file" multiple="multiple">
-        </div>
-        <div class="w3-col s4 w3-center">
-            <input type="button" class="smbutton" value="Create Workbook" onclick="parsefiles()">
+            <div class="w3-display-right w3-panel">
+                <h4>Single Coordinate Check:</h4>
+                <input type="text" name="filename" value="" id="wbName" style="width: auto;">
+                </br>
+                <h4>Message:</h4>
+                <input type="text" name="filename" value="" id="wbName" style="width: auto;">
+                </br>
+                <input type="button" class="smbutton" value="Check Coordinate" onclick="parsefiles()">
+                </br>
+                </br>
+                <h4>Select Blockade Checklist File:</h4>
+                <input class="file" id="file" type="file" multiple="multiple">
+                </br>
+                <input type="button" class="smbutton" value="Create Workbook" onclick="parsefiles()">
+            </div>
         </div>
     </div>
 </body>
