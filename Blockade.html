@@ -23,6 +23,51 @@
 </head>
 
 <style>
+    ul {
+        list-style-type: none;
+        text-align: center;
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+    }
+
+    #left_side {
+        float: left;
+    }
+
+    #right_side {
+        float: left;
+    }
+
+    #aisle_center {
+        border: .15em solid black;
+        background-color: #B2BCC4;
+        width: 6vw;
+        min-height: 14.25vw;
+        margin: .25em;
+        text-align: center;
+        float: left;
+        text-orientation: upright;
+        padding: 1.3vw;
+    }
+
+    .location {
+        background-color: #93a1a1;
+        border: medium solid black;
+        margin: 0.1em;
+        padding: 1vw;
+        height: auto;
+    }
+
+    .shelf {
+        background-color: #B2BCC4;
+        margin: .1em .9em .1em .9em;
+        border: .15em solid black;
+        padding: .5vw;
+        height: auto;
+        min-height: 2.8vw;
+    }
+
     .navette_shut {
         margin: .4vh .4vw .4vh .4vw;
         background-color: #7A8B99;
@@ -61,7 +106,7 @@
         margin: .1vh 3vw .1vh 3vw;
         padding: .1vh 0vw .1vh 0vw;
         font: "Segoe UI", Arial, Helvetica, sans-serif;
-        font-size: calc(2.5vw + 6 * ((100vw - 680px) / 680));
+        font-size: calc(2vw + 6 * ((100vw - 680px) / 680));
     }
 
     #wrapper {
@@ -73,23 +118,12 @@
         margin-right: auto;
     }
 
-    .center p {
-        margin: auto;
-        padding: 1vh 0vw 1vh 0vw;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        writing-mode: vertical-rl;
-        text-orientation: upright;
-    }
-
     body {
         background-color: #eaeaea;
         height: 100%;
         margin: .5em;
-        font-size: calc(((.65vw + 6 * ((100vw - 680px)) / 680) + (.65vh + 6 * ((100vh - 680px) / 680))) / 2);
-        font:"Segoe UI", Arial, Helvetica, sans-serif;
+        font-size: calc(((.65vw + 6 * ((100vw - 680px)) / 680) + (.55vh + 6 * ((100vh - 680px) / 680))) / 2);
+        font: "Segoe UI", Arial, Helvetica, sans-serif;
     }
 
     p,
@@ -171,7 +205,109 @@
         font-weight: normal
     }
 </style>
-<!-- Jquery-ui things-->
+<script>
+    var xValues = [0, 2880, 5760, 8640, 11520, 14400, 17280, 20160, 23040, 25920, 28800, 31680, 34560, 37440, 40320,
+        43200, 46080, 48960, 51840, 54720, 57600, 60480, 63360, 66240, 69120, 72000, 74880, 77760, 80640, 83520,
+        86400, 89280, 92160, 95040, 97920, 100800, 103680, 106560, 109440, 112320, 115200
+    ];
+
+    function parseData() {
+        document.getElementById("resultText").value = "Success!";
+        var elements_left = document.getElementById("left_side").querySelectorAll("div");
+        var elements_right = document.getElementById("right_side").querySelectorAll("div");
+        for (var i = 0; i < elements_left.length; i++) {
+            elements_left[i].style.backgroundColor = "#93a1a1";
+        }
+        for (var i = 0; i < elements_right.length; i++) {
+            elements_right[i].style.backgroundColor = "#eaeaea";
+        }
+        var inputText = document.getElementById("inputText").value;
+        // Empty check
+        if (inputText == "" || inputText == null) {
+            document.getElementById("resultText").value = "Empty!";
+        }
+        // Length check
+        if (inputText.length < 14 || inputText.length > 20) {
+            document.getElementById("resultText").value = "Invalid length!";
+        } else {
+            // NRA check
+            if (inputText[0] != "N" || inputText[1] != "R" || inputText[2] != "A") {
+                document.getElementById("resultText").value = "Not a rack location!";
+            }
+            var aValue = inputText.substring(inputText.lastIndexOf("A") + 1, inputText.lastIndexOf("X"));
+            if ((aValue.length != 4) || (isNaN(parseInt(aValue)))) {
+                document.getElementById("resultText").value = "Invalid aisle value!";
+            } else {
+                var aValueArr = aValue.split("");
+                aValueArr[2] = "1";
+                aValue = aValueArr.join("");
+                document.getElementById("aisle").innerHTML = aValue;
+            }
+            var xValue = inputText.substring(inputText.lastIndexOf("X") + 1, inputText.lastIndexOf("Y"));
+            if (isNaN(parseInt(xValue))) {
+                document.getElementById("resultText").value = "Invalid X: not a number!";
+            } else {
+                if (xValues.indexOf(parseInt(xValue)) == -1)
+                    document.getElementById("resultText").value = "Invalid X value!";
+                else {
+                    var fValue = 0;
+                    while (xValue > -1) {
+                        xValue -= 2880;
+                        fValue++;
+                    }
+                    // correction due field numbering starting with 2 not 1
+                    fValue++;
+                    document.getElementById("aisle").innerHTML += ("</br>F" + fValue + "*");
+                }
+            }
+            var yValue = inputText.substring(inputText.lastIndexOf("Y") + 1, inputText.lastIndexOf("Z"));
+            switch (yValue) {
+                case "01":
+                case "02":
+                case "03":
+                case "04":
+                case "05":
+                    document.getElementById("aisle").innerHTML += "</br>Y" + yValue;
+                    break;
+                default:
+                    document.getElementById("resultText").value = "Invalid Y value!";
+            }
+            var zValue = inputText.substring(inputText.lastIndexOf("Z") + 1);
+            if (zValue.length == 1) {
+                if (zValue == "1") {
+                    document.getElementById("x11").style.backgroundColor = "yellow";
+                } else if (zValue == "2") {
+                    document.getElementById("x21").style.backgroundColor = "yellow";
+                } else {
+                    document.getElementById("resultText").value = "Invalid Z value!";
+                }
+            } else {
+                switch (zValue) {
+                    case "11":
+                    case "12":
+                    case "13":
+                    case "14":
+                    case "15":
+                    case "16":
+                    case "17":
+                    case "18":
+                    case "21":
+                    case "22":
+                    case "23":
+                    case "24":
+                    case "25":
+                    case "26":
+                    case "27":
+                    case "28":
+                        document.getElementById("x" + zValue).style.backgroundColor = "yellow";
+                        break;
+                    default:
+                        document.getElementById("resultText").value = "Invalid Z value!";
+                }
+            }
+        }
+    }
+</script>
 <script>
     $(function () {
         var wk = $("#startDate").datepicker({
@@ -463,38 +599,28 @@
                     alt="Cannot load image" class="ssi-header-logo"></h1>
         </div>
     </div>
-    <div class="w3-row w3-panel ">
-        <div class="w3-col m4 w3-grey w3-center">
-            <h4>Navette Location</h4>
-        </div>
-        <div class="w3-col m4 w3-grey w3-center">
-            <h4>Rack Location</h4>
-        </div>
-        <div class="w3-col m4 w3-grey w3-center">
-            <h4>Select Blockade Checklist file.</h4>
-        </div>
-    </div>
-    <div class="w3-col s4 ">
-        <div class="w3-display-left w3-panel">
+    <div class="w3-col s5 ">
+        <div class="w3-padding w3-display-right w3-panel w3-card w3-margin">
+            <h4 class="w3-center">Navette Location</h4>
             <table class="w3-container container">
                 <tr>
                     <td rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />4</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />4</a></td>
                     <td rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />4</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />4</a></td>
                     <td rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />4</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />4</a></td>
                     <td rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />4</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />4</a></td>
                     <td rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />4</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />4</a></td>
                     <td rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />4</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />4</a></td>
                 </tr>
                 <tr>
@@ -502,22 +628,22 @@
                 </tr>
                 <tr>
                     <td rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />3</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />3</a></td>
                     <td rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />3</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />3</a></td>
                     <td rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />3</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />3</a></td>
                     <td rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />3</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />3</a></td>
                     <td rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />3</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />3</a></td>
                     <td rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />3</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />3</a></td>
                 </tr>
                 <tr>
@@ -525,92 +651,142 @@
                 </tr>
                 <tr>
                     <td rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />2</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />2</a></td>
                     <td rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />2</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />2</a></td>
                     <td rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />2</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />2</a></td>
                     <td rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />2</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />2</a></td>
                     <td rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />2</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />2</a></td>
                     <td rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />2</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />2</a></td>
                 </tr>
                 <td></td>
                 </tr>
                 <tr>
                     <td rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />1</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />1</a></td>
                     <td rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />1</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />1</a></td>
                     <td rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />1</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />1</a></td>
                     <td rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />1</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />1</a></td>
                     <td rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />1</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />1</a></td>
                     <td rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />1</a></td>
-                    <td class="invisible_td"><a>60<br />84</a></td>
+                    <td class="invisible_td"><a>0<br /></a></td>
                     <td rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />1</a></td>
                 </tr>
             </table>
         </div>
         <div class="w3-col s4 ">
-            <div class="w3-display-middle w3-panel">
-                <table class="w3-container container">
-                    <tr>
-                        <td class="rack"><a>X18</a></td>
-                        <td class="rack"><a>X17</a></td>
-                        <td class="arrow"><a>&#8593</a></td>
-                        <td class="rack"><a>X27</a></td>
-                        <td class="rack"><a>X28</a></td>
-                    </tr>
-                    <tr>
-                        <td class="rack"><a>X16</a></td>
-                        <td class="rack"><a>X15</a></td>
-                        <td class="invisible_td"><a>60<br />84</a></td>
-                        <td class="rack"><a>X25</a></td>
-                        <td class="rack"><a>X26</a></td>
-                    </tr>
-                    <tr>
-                        <td class="rack"><a>X14</a></td>
-                        <td class="rack"><a>X13</a></td>
-                        <td class="invisible_td"><a>60<br />84</a></td>
-                        <td class="rack"><a>X23</a></td>
-                        <td class="rack"><a>X24</a></td>
-                    </tr>
-                    <tr>
-                        <td class="rack"><a>X12</a></td>
-                        <td class="rack"><a>X11</a></td>
-                        <td class="arrow"><a>&#8593</a></td>
-                        <td class="rack"><a>X21</a></td>
-                        <td class="rack"><a>X22</a></td>
-                    </tr>
-                </table>
-                    <div class="center">
-                        <p>AISLE</p>
+            <div class="w3-display-middle w3-panel w3-card w3-margin">
+                <h4 class="w3-center">Rack Location</h4>
+                <div id="graph_cont">
+                    <div id="left_side">
+                        <ul>
+                            <li>
+                                <div id="l5" class="shelf"></div>
+                            <li>
+                                <div id="l4" class="shelf"></div>
+                            <li>
+                                <div id="l3" class="shelf"></div>
+                            <li>
+                                <div id="l2" class="shelf"></div>
+                            <li>
+                                <div id="l1" class="shelf"></div>
+                        </ul>
                     </div>
+                    <div id="left_side">
+                        <ul>
+                            <li>
+                                <div id="x18" class="location">X18</div>
+                            <li>
+                                <div id="x16" class="location">X16</div>
+                            <li>
+                                <div id="x14" class="location">X14</div>
+                            <li>
+                                <div id="x12" class="location">X12</div>
+                        </ul>
+                        <ul>
+                            <li>
+                                <div id="x17" class="location">X17</div>
+                            <li>
+                                <div id="x15" class="location">X15</div>
+                            <li>
+                                <div id="x13" class="location">X13</div>
+                            <li>
+                                <div id="x11" class="location">X11</div>
+                        </ul>
+                    </div>
+                    <div id="aisle_center">
+                        <ul>
+                            <li>
+                                <span style='font-size:3.5em;'>&#8679;</span> <br />
+                                <p id="aisle">Aisle</p>
+                                <span style='font-size:3.5em;'>&#8679;</span> <br />
+                        </ul>
+                    </div><!-- aisle center -->
+                    <div id="right_side">
+                        <ul>
+                            <li>
+                                <div id="x27" class="location">X27</div>
+                            <li>
+                                <div id="x25" class="location">X25</div>
+                            <li>
+                                <div id="x23" class="location">X23</div>
+                            <li>
+                                <div id="x21" class="location">X21</div>
+                        </ul>
+                        <ul>
+                            <li>
+                                <div id="x28" class="location">X28</div>
+                            <li>
+                                <div id="x26" class="location">X26</div>
+                            <li>
+                                <div id="x24" class="location">X24</div>
+                            <li>
+                                <div id="x22" class="location">X22</div>
+                        </ul>
+                    </div><!-- right side -->
+                    <div id="right_side">
+                        <ul>
+                            <li>
+                                <div id="r5" class="shelf"></div>
+                            <li>
+                                <div id="r4" class="shelf"></div>
+                            <li>
+                                <div id="r3" class="shelf"></div>
+                            <li>
+                                <div id="r2" class="shelf"></div>
+                            <li>
+                                <div id="r1" class="shelf"></div>
+                        </ul>
+                    </div>
+                </div><!-- graph_cont -->
             </div>
         </div>
-        <div class="w3-col s4 w3-center">
-            <div class="w3-display-right w3-panel">
+        <div class="w3-col s3 w3-center">
+            <div class="w3-display-left w3-panel w3-card w3-margin">
                 <h4>Single Coordinate Check:</h4>
                 <input type="text" name="filename" value="" id="wbName" style="width: auto;">
                 </br>
                 <h4>Message:</h4>
-                <input type="text" name="filename" value="" id="wbName" style="width: auto;">
+                <input type="text" name="filename" value="" id="resultText" style="width: auto;" readonly>
                 </br>
                 <input type="button" class="smbutton" value="Check Coordinate" onclick="parsefiles()">
                 </br>
