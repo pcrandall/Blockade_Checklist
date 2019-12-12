@@ -30,7 +30,6 @@
         padding: 0;
         margin: 0;
     }
-
     #left_side {
         float: left;
     }
@@ -48,7 +47,7 @@
         text-align: center;
         float: left;
         text-orientation: upright;
-        padding: 1.3vw;
+        padding: 1.15vw;
     }
 
     .location {
@@ -210,16 +209,33 @@
         43200, 46080, 48960, 51840, 54720, 57600, 60480, 63360, 66240, 69120, 72000, 74880, 77760, 80640, 83520,
         86400, 89280, 92160, 95040, 97920, 100800, 103680, 106560, 109440, 112320, 115200
     ];
+    var navettes = [1111, 1112, 1113, 1114,
+        1211, 1212, 1213, 1214,
+        2111, 2112, 2113, 2114,
+        2211, 2212, 2213, 2214,
+        3111, 3112, 3113, 3114,
+        3211, 3212, 3213, 3214,
+        4111, 4112, 4113, 4114,
+        4211, 4212, 4213, 4214,
+        5111, 5112, 5113, 5114,
+        5211, 5212, 5213, 5214,
+        6111, 6112, 6113, 6114,
+        6211, 6212, 6213, 6214
+    ];
+    var rack = [11, 12, 13, 14, 15, 16, 17, 18,
+        21, 22, 23, 24, 25, 26, 27, 28
+    ];
 
     function parseData() {
         document.getElementById("resultText").value = "Success!";
         var elements_left = document.getElementById("left_side").querySelectorAll("div");
         var elements_right = document.getElementById("right_side").querySelectorAll("div");
+
         for (var i = 0; i < elements_left.length; i++) {
-            elements_left[i].style.backgroundColor = "#93a1a1";
+            elements_left[i].style.backgroundColor = "#7A8B99";
         }
         for (var i = 0; i < elements_right.length; i++) {
-            elements_right[i].style.backgroundColor = "#eaeaea";
+            elements_right[i].style.backgroundColor = "#7A8B99";
         }
         var inputText = document.getElementById("inputText").value;
         // Empty check
@@ -241,68 +257,88 @@
                 var aValueArr = aValue.split("");
                 aValueArr[2] = "1";
                 aValue = aValueArr.join("");
-                document.getElementById("aisle").innerHTML = aValue;
-            }
-            var xValue = inputText.substring(inputText.lastIndexOf("X") + 1, inputText.lastIndexOf("Y"));
-            if (isNaN(parseInt(xValue))) {
-                document.getElementById("resultText").value = "Invalid X: not a number!";
-            } else {
-                if (xValues.indexOf(parseInt(xValue)) == -1)
-                    document.getElementById("resultText").value = "Invalid X value!";
-                else {
-                    var fValue = 0;
-                    while (xValue > -1) {
-                        xValue -= 2880;
-                        fValue++;
+                //Highlight the selected Navette
+                for (var i = 0; i < navettes.length; i++) {
+                    if (aValue == navettes[i]) {
+                        document.getElementById(aValue).style.backgroundColor = "yellow";
+                    } else {
+                        document.getElementById(navettes[i]).style.backgroundColor = "#7A8B99";
                     }
-                    // correction due field numbering starting with 2 not 1
-                    fValue++;
-                    document.getElementById("aisle").innerHTML += ("</br>F" + fValue + "*");
                 }
-            }
-            var yValue = inputText.substring(inputText.lastIndexOf("Y") + 1, inputText.lastIndexOf("Z"));
-            switch (yValue) {
-                case "01":
-                case "02":
-                case "03":
-                case "04":
-                case "05":
-                    document.getElementById("aisle").innerHTML += "</br>Y" + yValue;
-                    break;
-                default:
-                    document.getElementById("resultText").value = "Invalid Y value!";
-            }
-            var zValue = inputText.substring(inputText.lastIndexOf("Z") + 1);
-            if (zValue.length == 1) {
-                if (zValue == "1") {
-                    document.getElementById("x11").style.backgroundColor = "yellow";
-                } else if (zValue == "2") {
-                    document.getElementById("x21").style.backgroundColor = "yellow";
+                var xValue = inputText.substring(inputText.lastIndexOf("X") + 1, inputText.lastIndexOf("Y"));
+                document.getElementById("xtable").innerHTML = xValue;
+                if (isNaN(parseInt(xValue))) {
+                    document.getElementById("resultText").value = "Invalid X: not a number!";
                 } else {
-                    document.getElementById("resultText").value = "Invalid Z value!";
+                    if (xValues.indexOf(parseInt(xValue)) == -1)
+                        document.getElementById("resultText").value = "Invalid X value!";
+                    else {
+                        var fValue = 0;
+                        while (xValue > -1) {
+                            xValue -= 2880;
+                            fValue++;
+                        }
+                        // correction due field numbering starting with 2 not 1
+                        fValue++;
+                        document.getElementById("ftable").innerHTML = fValue;
+                    }
                 }
-            } else {
-                switch (zValue) {
-                    case "11":
-                    case "12":
-                    case "13":
-                    case "14":
-                    case "15":
-                    case "16":
-                    case "17":
-                    case "18":
-                    case "21":
-                    case "22":
-                    case "23":
-                    case "24":
-                    case "25":
-                    case "26":
-                    case "27":
-                    case "28":
-                        document.getElementById("x" + zValue).style.backgroundColor = "yellow";
+                var yValue = inputText.substring(inputText.lastIndexOf("Y") + 1, inputText.lastIndexOf("Z"));
+                var zValue = inputText.substring(inputText.lastIndexOf("Z") + 1);
+                switch (yValue) {
+                    case "01":
+                    case "02":
+                    case "03":
+                    case "04":
+                    case "05":
+                        document.getElementById("ytable").innerHTML = yValue;
+                        if (zValue[0] == "1") {
+                            document.getElementById("l" + yValue).style.backgroundColor = "yellow";
+                        } else if (zValue[0] == "2") {
+                            document.getElementById("r" + yValue).style.backgroundColor = "yellow";
+                        }
                         break;
                     default:
+                        document.getElementById("resultText").value = "Invalid Y value!";
+                }
+                if (zValue.length == 1) {
+                    if (zValue == "1") {
+                        document.getElementById("x11").style.backgroundColor = "yellow";
+                    } else if (zValue == "2") {
+                        document.getElementById("x21").style.backgroundColor = "yellow";
+                    } else {
                         document.getElementById("resultText").value = "Invalid Z value!";
+                    }
+                } else {
+                    for (var i = 0; i < rack.length; i++) {
+                        if (zValue != rack[i]) {
+                            document.getElementById("x" + rack[i]).style.backgroundColor = "#7A8B99";
+                            document.getElementById("ztable").innerHTML = "Invalid Z value!";
+                        } else {};
+                    }
+                    switch (zValue) {
+                        case "11":
+                        case "12":
+                        case "13":
+                        case "14":
+                        case "15":
+                        case "16":
+                        case "17":
+                        case "18":
+                        case "21":
+                        case "22":
+                        case "23":
+                        case "24":
+                        case "25":
+                        case "26":
+                        case "27":
+                        case "28":
+                            document.getElementById("x" + zValue).style.backgroundColor = "yellow";
+                            document.getElementById("ztable").innerHTML = zValue;
+                            break;
+                        default:
+                            document.getElementById("resultText").value = "Invalid Z value!";
+                    }
                 }
             }
         }
@@ -604,92 +640,92 @@
             <h4 class="w3-center">Navette Location</h4>
             <table class="w3-container container">
                 <tr>
-                    <td rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />4</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />4</a></td>
-                    <td rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />4</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />4</a></td>
-                    <td rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />4</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />4</a></td>
-                    <td rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />4</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />4</a></td>
-                    <td rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />4</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />4</a></td>
-                    <td rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />4</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />4</a></td>
+                    <td id="6214" rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />4</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="6114" rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />4</a></td>
+                    <td id="5214" rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />4</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="5114" rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />4</a></td>
+                    <td id="4214" rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />4</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="4114" rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />4</a></td>
+                    <td id="3214" rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />4</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="3114" rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />4</a></td>
+                    <td id="2214" rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />4</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="2114" rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />4</a></td>
+                    <td id="1214" rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />4</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="1114" rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />4</a></td>
                 </tr>
                 <tr>
                     <td></td>
                 </tr>
                 <tr>
-                    <td rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />3</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />3</a></td>
-                    <td rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />3</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />3</a></td>
-                    <td rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />3</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />3</a></td>
-                    <td rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />3</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />3</a></td>
-                    <td rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />3</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />3</a></td>
-                    <td rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />3</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />3</a></td>
+                    <td id="6213" rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />3</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="6113" rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />3</a></td>
+                    <td id="5213" rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />3</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="5113" rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />3</a></td>
+                    <td id="4213" rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />3</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="4113" rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />3</a></td>
+                    <td id="3213" rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />3</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="3113" rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />3</a></td>
+                    <td id="2213" rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />3</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="2113" rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />3</a></td>
+                    <td id="1213" rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />3</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="1113" rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />3</a></td>
                 </tr>
                 <tr>
                     <td></td>
                 </tr>
                 <tr>
-                    <td rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />2</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />2</a></td>
-                    <td rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />2</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />2</a></td>
-                    <td rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />2</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />2</a></td>
-                    <td rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />2</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />2</a></td>
-                    <td rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />2</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />2</a></td>
-                    <td rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />2</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />2</a></td>
+                    <td id="6212" rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />2</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="6112" rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />2</a></td>
+                    <td id="5212" rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />2</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="5112" rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />2</a></td>
+                    <td id="4212" rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />2</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="4112" rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />2</a></td>
+                    <td id="3212" rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />2</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="3112" rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />2</a></td>
+                    <td id="2212" rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />2</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="2112" rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />2</a></td>
+                    <td id="1212" rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />2</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="1112" rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />2</a></td>
                 </tr>
                 <td></td>
                 </tr>
                 <tr>
-                    <td rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />1</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />1</a></td>
-                    <td rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />1</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />1</a></td>
-                    <td rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />1</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />1</a></td>
-                    <td rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />1</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />1</a></td>
-                    <td rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />1</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />1</a></td>
-                    <td rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />1</a></td>
-                    <td class="invisible_td"><a>0<br /></a></td>
-                    <td rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />1</a></td>
+                    <td id="6211" rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />1</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="6111" rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />1</a></td>
+                    <td id="5211" rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />1</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="5111" rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />1</a></td>
+                    <td id="4211" rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />1</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="4111" rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />1</a></td>
+                    <td id="3211" rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />1</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="3111" rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />1</a></td>
+                    <td id="2211" rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />1</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="2111" rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />1</a></td>
+                    <td id="1211" rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />1</a></td>
+                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="1111" rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />1</a></td>
                 </tr>
             </table>
         </div>
@@ -700,15 +736,15 @@
                     <div id="left_side">
                         <ul>
                             <li>
-                                <div id="l5" class="shelf"></div>
+                                <div id="l05" class="shelf"></div>
                             <li>
-                                <div id="l4" class="shelf"></div>
+                                <div id="l04" class="shelf"></div>
                             <li>
-                                <div id="l3" class="shelf"></div>
+                                <div id="l03" class="shelf"></div>
                             <li>
-                                <div id="l2" class="shelf"></div>
+                                <div id="l02" class="shelf"></div>
                             <li>
-                                <div id="l1" class="shelf"></div>
+                                <div id="l01" class="shelf"></div>
                         </ul>
                     </div>
                     <div id="left_side">
@@ -766,29 +802,52 @@
                     <div id="right_side">
                         <ul>
                             <li>
-                                <div id="r5" class="shelf"></div>
+                                <div id="r05" class="shelf"></div>
                             <li>
-                                <div id="r4" class="shelf"></div>
+                                <div id="r04" class="shelf"></div>
                             <li>
-                                <div id="r3" class="shelf"></div>
+                                <div id="r03" class="shelf"></div>
                             <li>
-                                <div id="r2" class="shelf"></div>
+                                <div id="r02" class="shelf"></div>
                             <li>
-                                <div id="r1" class="shelf"></div>
+                                <div id="r01" class="shelf"></div>
                         </ul>
                     </div>
+                    <div>
+                        <table class="w3-table-all w3-card-4 w3-margin-bottom">
+                            <thead>
+                                <tr class="w3-light-grey">
+                                    <td>Field: </td>
+                                    <td id="ftable"></td>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td>X coordinate: </td>
+                                <td id="xtable"></td>
+                            </tr>
+                            <tr>
+                                <td>Y coordinate: </td>
+                                <td id="ytable"></td>
+                            </tr>
+                            <tr>
+                                <td>Z coordinate: </td>
+                                <td id="ztable"></td>
+                            </tr>
+                        </table>
+                    </div>
+
                 </div><!-- graph_cont -->
             </div>
         </div>
         <div class="w3-col s3 w3-center">
             <div class="w3-display-left w3-panel w3-card w3-margin">
                 <h4>Single Coordinate Check:</h4>
-                <input type="text" name="filename" value="" id="wbName" style="width: auto;">
+                <input type="text" name="filename" value="" id="inputText" style="width: auto;">
                 </br>
                 <h4>Message:</h4>
                 <input type="text" name="filename" value="" id="resultText" style="width: auto;" readonly>
                 </br>
-                <input type="button" class="smbutton" value="Check Coordinate" onclick="parsefiles()">
+                <input type="button" class="smbutton" id="ParseButton" value="Check Coordinate" onclick="parseData()">
                 </br>
                 </br>
                 <h4>Select Blockade Checklist File:</h4>
