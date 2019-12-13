@@ -44,20 +44,20 @@
     #aisle_center {
         border: .15em solid black;
         background-color: #B2BCC4;
-        width: 6vw;
-        min-height: 14.25vw;
+        width: 5vw;
+        min-height: 10vw;
         margin: .25em;
         text-align: center;
         float: left;
         text-orientation: upright;
-        padding: 1.15vw;
+        padding: .4vw;
     }
 
     .location {
         background-color: #7A8B99;
-        border: medium solid black;
-        margin: 0.1em;
-        padding: 1vw;
+        border: .15em solid black;
+        margin: .5em .01em .5em .01em;
+        padding: .65vw;
         height: auto;
     }
 
@@ -65,18 +65,18 @@
         background-color: #7A8B99;
         margin: .1em .2em .1em .2em;
         border: .15em solid black;
-        padding: .5vw;
+        padding: .1vw;
         height: auto;
-        min-height: 2.8vw;
+        min-height: 2.5vw;
     }
 
     .navette_shut {
-        margin: .4vh .4vw .4vh .4vw;
+        margin: .4vh .3vw .4vh .3vw;
         background-color: #7A8B99;
         border-style: solid;
         border-width: thin;
         border-color: black;
-        padding: .5vh .5vw .5vh .5vw;
+        padding: .3vh .4vw .3vh .4vw;
     }
 
     .rack {
@@ -90,8 +90,8 @@
 
     .invisible_td {
         display: block;
-        margin: .1vh .01vw .1vh .01vw;
-        padding: .04vh 0vw .04vh 0vw;
+        margin: .1em;
+        padding: .05em;
         opacity: 0;
     }
 
@@ -128,16 +128,6 @@
         color: black;
     }
 
-    .button {
-        cursor: pointer;
-        background-color: lightgray;
-        border-radius: 1vw;
-        margin: .5vw;
-        min-width: calc(6vw + 6 * ((100vw - 680px) / 680));
-        padding: .5vw;
-        text-align: center;
-    }
-
     .smbutton {
         cursor: pointer;
         background-color: yellow;
@@ -145,23 +135,22 @@
         margin: .5vw;
         min-width: calc(6vw + 6 * ((100vw - 680px) / 680));
         font-size: calc(.75vw + 6 * ((100vw - 680px) / 680));
-        padding: .8vw;
+        padding: .5vw;
     }
 
     .file {
         cursor: pointer;
         background-color: lightgray;
         border-radius: 1vw;
-        margin: 1vw;
-        font-size: calc(.5vw + 6 * ((100vw - 680px) / 680));
+        margin: .5vw;
+        font-size: calc(.3vw + 6 * ((100vw - 680px) / 680));
         padding: .5vw;
-        text-align: center
     }
 
     .ssi-header-logo {
         float: right;
-        height: 1.7vw;
-        margin: .6vw;
+        height: 1.5vw;
+        margin: .7vw;
         width: auto;
     }
 
@@ -186,9 +175,8 @@
         text-align: left;
         font-family: arial;
         font-size: calc(.65vw + 6 * ((100vw - 320px) / 680));
-        padding: 12px;
-        margin-top: 0px;
-        margin-bottom: 5px;
+        padding: 10px;
+        margin: .7vw;
         background-color: yellow;
     }
 
@@ -208,8 +196,8 @@
                     alt="Cannot load image" class="ssi-header-logo"></h1>
         </div>
     </div>
-    <div class="w3-third">
-        <div class="w3-panel w3-card w3-margin">
+    <div class="w3-quarter">
+        <div class="w3-panel w3-padding w3-margin">
             <h4>Single Coordinate Check:</h4>
             <input type="text" name="filename" value="" id="inputText" style="width: auto;">
             </br>
@@ -222,11 +210,30 @@
             <h4>Select Blockade Checklist File:</h4>
             <input class="file" id="file" type="file" multiple="multiple">
             </br>
-            <input type="button" class="smbutton" value="Create Workbook" onclick="parsefiles()">
+            <input type="button" class="smbutton" value="Check Blockade List" onclick="parsefiles()">
         </div>
     </div>
-    <div class="w3-third">
-        <div class="w3-panel w3-card w3-margin">
+    <div class="w3-quarter">
+        <div class="w3-panel w3-padding w3-margin">
+            <h4 class="w3-center">Blockade Checklist</h4>
+            <table class="w3-table-all w3-card-4">
+                <thead>
+                    <tr class="w3-light-grey">
+                        <th>Storage Location</th>
+                        <th>LU</th>
+                        <th>Verified LU</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="w3-quarter">
+        <div class="w3-panel w3-padding w3-margin">
             <h4 class="w3-center">Rack Location</h4>
             <div id="graph_cont">
                 <table class="w3-container container">
@@ -311,7 +318,7 @@
                                     <div id="r01" class="shelf"></div>
                             </ul>
                         </div>
-</td>
+                    </td>
                 </table>
                 <div>
                     <table class="w3-table-all w3-card-4 w3-margin-bottom">
@@ -339,28 +346,28 @@
         </div>
     </div>
 
-    <div class="w3-third">
-        <div class="w3-padding w3-panel w3-card w3-margin">
+    <div class="w3-quarter">
+        <div class="w3-padding w3-panel w3-margin">
             <h4 class="w3-center">Navette Location</h4>
             <table class="w3-container container">
                 <tr>
                     <td id="6214" rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />4</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="6114" rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />4</a></td>
                     <td id="5214" rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />4</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="5114" rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />4</a></td>
                     <td id="4214" rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />4</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="4114" rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />4</a></td>
                     <td id="3214" rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />4</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="3114" rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />4</a></td>
                     <td id="2214" rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />4</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="2114" rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />4</a></td>
                     <td id="1214" rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />4</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="1114" rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />4</a></td>
                 </tr>
                 <tr>
@@ -368,22 +375,22 @@
                 </tr>
                 <tr>
                     <td id="6213" rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />3</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="6113" rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />3</a></td>
                     <td id="5213" rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />3</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="5113" rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />3</a></td>
                     <td id="4213" rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />3</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="4113" rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />3</a></td>
                     <td id="3213" rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />3</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="3113" rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />3</a></td>
                     <td id="2213" rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />3</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="2113" rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />3</a></td>
                     <td id="1213" rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />3</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="1113" rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />3</a></td>
                 </tr>
                 <tr>
@@ -391,44 +398,44 @@
                 </tr>
                 <tr>
                     <td id="6212" rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />2</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="6112" rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />2</a></td>
                     <td id="5212" rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />2</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="5112" rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />2</a></td>
                     <td id="4212" rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />2</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="4112" rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />2</a></td>
                     <td id="3212" rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />2</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="3112" rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />2</a></td>
                     <td id="2212" rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />2</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="2112" rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />2</a></td>
                     <td id="1212" rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />2</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="1112" rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />2</a></td>
                 </tr>
                 <td></td>
                 </tr>
                 <tr>
                     <td id="6211" rowspan=2 class="navette_shut"><a>6<br />2<br />1<br />1</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="6111" rowspan=2 class="navette_shut"><a>6<br />1<br />1<br />1</a></td>
                     <td id="5211" rowspan=2 class="navette_shut"><a>5<br />2<br />1<br />1</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="5111" rowspan=2 class="navette_shut"><a>5<br />1<br />1<br />1</a></td>
                     <td id="4211" rowspan=2 class="navette_shut"><a>4<br />2<br />1<br />1</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="4111" rowspan=2 class="navette_shut"><a>4<br />1<br />1<br />1</a></td>
                     <td id="3211" rowspan=2 class="navette_shut"><a>3<br />2<br />1<br />1</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="3111" rowspan=2 class="navette_shut"><a>3<br />1<br />1<br />1</a></td>
                     <td id="2211" rowspan=2 class="navette_shut"><a>2<br />2<br />1<br />1</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="2111" rowspan=2 class="navette_shut"><a>2<br />1<br />1<br />1</a></td>
                     <td id="1211" rowspan=2 class="navette_shut"><a>1<br />2<br />1<br />1</a></td>
-                    <td id="" class="invisible_td"><a>0<br /></a></td>
+                    <td id="" class="invisible_td"><a></a></td>
                     <td id="1111" rowspan=2 class="navette_shut"><a>1<br />1<br />1<br />1</a></td>
                 </tr>
             </table>
