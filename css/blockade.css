@@ -1,0 +1,181 @@
+    ul {
+        list-style-type: none;
+        text-align: center;
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+    }
+    #left_side {
+        float: left;
+    }
+
+    #right_side {
+        float: left;
+    }
+
+    #aisle_center {
+        border: .15em solid black;
+        background-color: #B2BCC4;
+        width: 6vw;
+        min-height: 14.25vw;
+        margin: .25em;
+        text-align: center;
+        float: left;
+        text-orientation: upright;
+        padding: 1.15vw;
+    }
+
+    .location {
+        background-color: #93a1a1;
+        border: medium solid black;
+        margin: 0.1em;
+        padding: 1vw;
+        height: auto;
+    }
+
+    .shelf {
+        background-color: #B2BCC4;
+        margin: .1em .9em .1em .9em;
+        border: .15em solid black;
+        padding: .5vw;
+        height: auto;
+        min-height: 2.8vw;
+    }
+
+    .navette_shut {
+        margin: .4vh .4vw .4vh .4vw;
+        background-color: #7A8B99;
+        border-style: solid;
+        border-width: thin;
+        border-color: black;
+        padding: .5vh .5vw .5vh .5vw;
+    }
+
+    .rack {
+        margin: 10px;
+        background-color: #7A8B99;
+        border-style: solid;
+        border-width: medium;
+        border-color: black;
+        padding: 1.25vw;
+    }
+
+    .invisible_td {
+        display: block;
+        margin: .1vh .01vw .1vh .01vw;
+        padding: .04vh 0vw .04vh 0vw;
+        opacity: 0;
+    }
+
+    .aisle {
+        display: block;
+        margin: .1vh 2vw .1vh 2vw;
+        padding: .04vh 0vw .04vh 0vw;
+        font: "Segoe UI", Arial, Helvetica, sans-serif;
+        font-size: calc(1vw + 6 * ((100vw - 680px) / 680));
+    }
+
+    .arrow {
+        display: block;
+        margin: .1vh 3vw .1vh 3vw;
+        padding: .1vh 0vw .1vh 0vw;
+        font: "Segoe UI", Arial, Helvetica, sans-serif;
+        font-size: calc(2vw + 6 * ((100vw - 680px) / 680));
+    }
+
+    #wrapper {
+        float: right;
+    }
+
+    .container {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    body {
+        background-color: #eaeaea;
+        height: 100%;
+        margin: .5em;
+        font-size: calc(((.65vw + 6 * ((100vw - 680px)) / 680) + (.55vh + 6 * ((100vh - 680px) / 680))) / 2);
+        font: "Segoe UI", Arial, Helvetica, sans-serif;
+    }
+
+    p,
+    h1,
+    h2,
+    h3,
+    h4 {
+        color: black;
+    }
+
+    .button {
+        cursor: pointer;
+        background-color: lightgray;
+        border-radius: 1vw;
+        margin: .5vw;
+        min-width: calc(6vw + 6 * ((100vw - 680px) / 680));
+        padding: .5vw;
+        text-align: center;
+    }
+
+    font-size: calc(.5vw + 6 * ((100vw - 680px) / 680));
+        padding: .5vw;
+        text-align: center
+    }
+
+    .ssi-header-logo {
+        float: right;
+        height: 1.5vw;
+        margin: .5vw;
+        width: auto;
+    }
+
+    h1 {
+        text-align: left;
+        font-family: arial;
+        font-size: 2vw;
+        padding: .5vw;
+        margin-top: 0px;
+        margin-bottom: .15vw;
+        background-color: yellow;
+    }
+
+    h2 {
+        font-family: arial;
+        font-size: calc(.8vw + 6 * ((100vw - 320px) / 680));
+        margin: 15px;
+        font-weight: normal
+    }
+
+    h3 {
+        text-align: left;
+        font-family: arial;
+        font-size: calc(.65vw + 6 * ((100vw - 320px) / 680));
+        padding: 12px;
+        margin-top: 0px;
+        margin-bottom: 5px;
+        background-color: yellow;
+    }
+
+    h4 {
+        font-family: arial;
+        font-size: calc(.5vw + 6 * ((100vw - 320px) / 680));
+        margin: 5px;
+        font-weight: normal
+    }
+    .smbutton {
+        cursor: pointer;
+        background-color: yellow;
+        border-radius: 1vw;
+        margin: .5vw;
+        min-width: calc(6vw + 6 * ((100vw - 680px) / 680));
+        font-size: calc(.75vw + 6 * ((100vw - 680px) / 680));
+        padding: .8vw;
+    }
+
+    .file {
+        cursor: pointer;
+        background-color: lightgray;
+        border-radius: 1vw;
+        margin: 1vw;
+    }
