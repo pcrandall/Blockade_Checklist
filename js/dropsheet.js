@@ -120,6 +120,7 @@ var DropSheet = function DropSheet(opts) {
   function handleFile(e) {
     if(pending) return opts.errors.pending();
     var files = e.target.files;
+    console.log(files);
     var i,f;
     for (i = 0, f = files[i]; i != files.length; ++i) {
       var reader = new FileReader();

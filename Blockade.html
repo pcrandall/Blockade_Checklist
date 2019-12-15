@@ -8,11 +8,10 @@
     <meta name="viewport" content="initial-scale=1.0">
     <link rel="stylesheet" href="./css/w3.css">
     <link rel="stylesheet" href="./css/jquery-ui.css">
-    <link rel="stylesheet" media="screen" href="./samples.css">
     <script src="./js/alertify.js"></script>
     <script src="./js/Blob.js"></script>
     <script src="./js/coordparse.js"></script>
-<!--
+    <!--
     <script src="./js/datepick.js"></script>
 -->
     <script src="./js/FileSaver.js"></script>
@@ -24,7 +23,7 @@
     <script src="./js/dropsheet.js"></script>
     <script src="./js/main.js"></script>
     <script src="./js/canvas-datagrid.js"></script>
-        <script src="./js/xlsx.full.min.js"></script>
+    <script src="./js/xlsx.full.min.js"></script>
 </head>
 <style>
     ul {
@@ -211,18 +210,18 @@
             <h4>Message:</h4>
             <input type="text" name="filename" value="" id="resultText" style="width: auto;" readonly>
             </br>
-            <input type="button" class="smbutton" id="ParseButton" value="Check Coordinate"" onclick="parseData()">
+            <input type="button" class="smbutton" id="ParseButton" value="Check Coordinate"" onclick=" parseData()">
             </br>
             </br>
             </br>
-                <h4>Select Blockade Checklist File:</h4>
-                <div id="drop">
-                <input class="file" id='file' type="file">
-                <a>Drop a file here. </a> 
-            </div>
+            <h4>Select Blockade Checklist File:</h4>
+            <div id="drop"></div>
+            <input class="file" id='file' type="file">
+            </br>
+            <label for="file">Drop the file here.</label>
         </div>
     </div>
-</div>
+    </div>
     <div class="w3-quarter">
         <div class="w3-panel w3-padding w3-margin">
             <h4 class="w3-center">Blockade Checklist</h4>
