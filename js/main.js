@@ -3,9 +3,13 @@
 
 
 
+
+
+
+
+window.addEventListener('load', function () {
 /** Spinner **/
 var spinner;
-
 var _workstart = function() { spinner = new Spinner().spin(_target); }
 var _workend = function() { spinner.stop(); }
 
@@ -42,8 +46,6 @@ var make_buttons = function(sheetnames, cb) {
     buttons.appendChild(document.createElement('br'));
   });
 };
-
-window.addEventListener('load', function () {
 var _target = document.getElementById('drop');
 var _file = document.getElementById('file');
 var _grid = document.getElementById('grid');
@@ -79,9 +81,6 @@ DropSheet({
     foo: 'bar'
   }
 })
-});
- 
-
 function _resize() {
   _grid.style.height = (window.innerHeight - 200) + "px";
   _grid.style.width = (window.innerWidth - 200) + "px";
@@ -109,6 +108,10 @@ var _onsheet = function(json, sheetnames, select_sheet_cb) {
   /* load data */
   cdg.data = json;
 };
+});
+ 
+
+
 
 
 
