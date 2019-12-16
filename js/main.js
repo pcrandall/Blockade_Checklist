@@ -44,18 +44,13 @@ var _target = document.getElementById('drop');
 var _file = document.getElementById('file');
 var _grid = document.getElementById('grid');
 
-    console.log(_target);
-    console.log(_file);
-    console.log(_grid);
-    console.log(DropSheet);
     // create a new grid
    var cdg = canvasDatagrid({
       parentNode: _grid
     });
-    console.log(cdg);
 
-cdg.style.height = '100%';
-cdg.style.width = '100%';
+cdg.style.height = '50%';
+cdg.style.width = '50%';
 
 
 function _resize() {
@@ -64,19 +59,21 @@ function _resize() {
 }
 
 var _onsheet = function(json, sheetnames, select_sheet_cb) {
-  make_buttons(sheetnames, select_sheet_cb);
+  //make_buttons(sheetnames, select_sheet_cb);
 
   /* show grid */
   _grid.style.display = "block";
   _resize();
 
-  /* set up table headers */
+  /* set up table headers*/
   var L = 0;
   json.forEach(function(r) { if(L < r.length) L = r.length; });
   console.log(L);
   for(var i = json[0].length; i < L; ++i) {
+    console.log(json[0][i]);
     json[0][i] = "";
   }
+
 
   /* load data */
   cdg.data = json;
