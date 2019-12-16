@@ -195,7 +195,6 @@
 </style>
 
 <body>
-
     <div class="w3-panel">
         <div class="w3-container">
             <h1>Blockade Check<img
@@ -203,34 +202,7 @@
                     alt="Cannot load image" class="ssi-header-logo"></h1>
         </div>
     </div>
-    <div class="w3-quarter">
-        <div class="w3-panel w3-padding w3-margin">
-            <h4>Single Coordinate Check:</h4>
-            <input type="text" name="filename" value="" id="inputText" style="width: auto;">
-            </br>
-            <h4>Message:</h4>
-            <input type="text" name="filename" value="" id="resultText" style="width: auto;" readonly>
-            </br>
-            <input type="button" class="smbutton" id="ParseButton" value="Check Coordinate"" onclick=" parseData()">
-            </br>
-            </br>
-            </br>
-            <h4>Select Blockade Checklist File:</h4>
-            <input class="file" id='file' type="file">
-            </br>
-            <label for="file"></label>
-            <h2><div id="drop">Drop file here.</div></h2>
-            <div id="buttons"></div>
-        </div>
-    </div>
-    </div>
-    <div class="w3-quarter">
-        <div class="w3-panel w3-padding w3-margin">
-            <h4 class="w3-center">Blockade Checklist</h4>
-                <div id="grid"></div>
-        </div>
-    </div>
-    <div class="w3-quarter">
+    <div class="w3-half">
         <div class="w3-panel w3-padding ">
             <h4 class="w3-center">Rack Location</h4>
             <div id="graph_cont">
@@ -343,8 +315,7 @@
             </div>
         </div>
     </div>
-
-    <div class="w3-quarter">
+    <div class="w3-half">
         <div class="w3-padding w3-panel w3-margin">
             <h4 class="w3-center">Navette Location</h4>
             <table class="w3-container container">
@@ -439,10 +410,31 @@
             </table>
         </div>
     </div>
-
+    <div class="w3-half">
+        <div class="w3-panel w3-padding w3-margin">
+            <h4 class="w3-center">Blockade Checklist</h4>
+                <div id="grid"></div>
+        </div>
+    </div
+    <div class="w3-half">
+        <div class="w3-panel w3-padding w3-margin">
+            <h4>Single Coordinate Check:</h4>
+            <input type="text" name="filename" value="" id="inputText" style="width: auto;">
+            </br>
+            <h4>Message:</h4>
+            <input type="text" name="filename" value="" id="resultText" style="width: auto;" readonly>
+            </br>
+            <input type="button" class="smbutton" id="ParseButton" value="Check Coordinate"" onclick=" parseData()">
+            </br>
+            </br>
+            </br>
+            <h4>Select Blockade Checklist File:</h4>
+            <input class="file" id='file' type="file">
+            </br>
+            <label for="file"></label>
+            <h2><div id="drop">Drop file here.</div></h2>
+            <div id="buttons"></div>
+        </div>
     </div>
 </body>
-
-
-
 </html>
