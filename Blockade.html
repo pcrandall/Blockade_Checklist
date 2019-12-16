@@ -9,13 +9,11 @@
     <link rel="stylesheet" href="./css/w3.css">
     <link rel="stylesheet" href="./css/jquery-ui.css">
     <link rel="stylesheet" href="./css/sheetjs.css">
-
-
     <script src="./js/Blob.js"></script>
     <script src="./js/coordparse.js"></script>
     <!--
     <script src="./js/datepick.js"></script>
--->
+    -->
     <script src="./js/FileSaver.js"></script>
     <script src="./js/jquery-1.12.4.js"></script>
     <script src="./js/spin.js"></script>
@@ -197,6 +195,7 @@
 </style>
 
 <body>
+
     <div class="w3-panel">
         <div class="w3-container">
             <h1>Blockade Check<img
@@ -219,15 +218,16 @@
             <h4>Select Blockade Checklist File:</h4>
             <input class="file" id='file' type="file">
             </br>
-           <h4> <label for="file">Or drop the file here.</label></h4>
-            <div id="drop"></div>
+            <label for="file"></label>
+            <h2><div id="drop">Drop file here.</div></h2>
+            <div id="buttons"></div>
         </div>
     </div>
     </div>
     <div class="w3-quarter">
         <div class="w3-panel w3-padding w3-margin">
             <h4 class="w3-center">Blockade Checklist</h4>
-            <div id="grid"></div>
+                <div id="grid"></div>
         </div>
     </div>
     <div class="w3-quarter">

@@ -1,12 +1,6 @@
 /* oss.sheetjs.com (C) 2014-present SheetJS -- http://sheetjs.com */
 /* vim: set ts=2: */
 
-
-
-
-
-
-
 window.addEventListener('load', function () {
 /** Spinner **/
 var spinner;
@@ -86,8 +80,6 @@ function _resize() {
   _grid.style.width = (window.innerWidth - 200) + "px";
 }
 
-window.addEventListener('resize', _resize);
-
 var _onsheet = function(json, sheetnames, select_sheet_cb) {
   document.getElementById('footnote').style.display = "none";
 
@@ -107,9 +99,10 @@ var _onsheet = function(json, sheetnames, select_sheet_cb) {
 
   /* load data */
   cdg.data = json;
+  console.log(json);
 };
-});
  
+});
 
 
 
