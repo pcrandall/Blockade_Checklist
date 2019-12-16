@@ -57,7 +57,31 @@ var _grid = document.getElementById('grid');
 cdg.style.height = '100%';
 cdg.style.width = '100%';
 
-/** Drop it like it's hot **/
+
+function _resize() {
+  _grid.style.height = (window.innerHeight - 200) + "px";
+  _grid.style.width = (window.innerWidth - 200) + "px";
+}
+
+var _onsheet = function(json, sheetnames, select_sheet_cb) {
+  make_buttons(sheetnames, select_sheet_cb);
+
+  /* show grid */
+  _grid.style.display = "block";
+  _resize();
+
+  /* set up table headers */
+  var L = 0;
+  json.forEach(function(r) { if(L < r.length) L = r.length; });
+  console.log(L);
+  for(var i = json[0].length; i < L; ++i) {
+    json[0][i] = "";
+  }
+
+  /* load data */
+  cdg.data = json;
+};
+ /** Drop it like it's hot **/
 DropSheet({
   file: _file,
   drop: _target,
@@ -75,33 +99,6 @@ DropSheet({
     foo: 'bar'
   }
 })
-function _resize() {
-  _grid.style.height = (window.innerHeight - 200) + "px";
-  _grid.style.width = (window.innerWidth - 200) + "px";
-}
-
-var _onsheet = function(json, sheetnames, select_sheet_cb) {
-  document.getElementById('footnote').style.display = "none";
-
-  make_buttons(sheetnames, select_sheet_cb);
-
-  /* show grid */
-  _grid.style.display = "block";
-  _resize();
-
-  /* set up table headers */
-  var L = 0;
-  json.forEach(function(r) { if(L < r.length) L = r.length; });
-  console.log(L);
-  for(var i = json[0].length; i < L; ++i) {
-    json[0][i] = "";
-  }
-
-  /* load data */
-  cdg.data = json;
-  console.log(json);
-};
- 
 });
 
 
