@@ -69,6 +69,7 @@ var DropSheet = function DropSheet(opts) {
     opts.on.wb(wb, sheetidx);
     var sheet = wb.SheetNames[sheetidx||0];
     var json = to_json(wb)[sheet];
+    console.log(json);
     opts.on.sheet(json, wb.SheetNames, choose_sheet);
   }
 
@@ -120,11 +121,11 @@ var DropSheet = function DropSheet(opts) {
   function handleFile(e) {
     if(pending) return opts.errors.pending();
     var files = e.target.files;
-    console.log(files);
     var i,f;
     for (i = 0, f = files[i]; i != files.length; ++i) {
       var reader = new FileReader();
       var name = f.name;
+      console.log(f);
       reader.onload = function(e) {
         var data = e.target.result;
         var wb, arr;
