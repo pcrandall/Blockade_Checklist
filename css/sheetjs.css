@@ -7,11 +7,12 @@ html {
     border:2px dashed #bbb;
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
-    border-radius:5px;
-    padding:25px;
+    border-radius:15px;
+    padding:30px;
     text-align:center;
-    width:128px;
-    font:20pt bold,"Vollkorn";color:#bbb
+    width:300px;
+    font:30pt bold,"Vollkorn";color:#bbb;
+    margin: 0 auto;
   }
   
   #left {

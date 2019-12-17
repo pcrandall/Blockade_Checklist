@@ -60,6 +60,7 @@ function _resize() {
 
 var _onsheet = function(json, sheetnames, select_sheet_cb) {
   //make_buttons(sheetnames, select_sheet_cb);
+  document.getElementById('drop').style.display = "none";
 
   /* show grid */
   _grid.style.display = "block";
