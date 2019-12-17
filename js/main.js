@@ -81,14 +81,20 @@ window.addEventListener('load', function () {
     });
     console.log(L);
 
-
+    //Sort by floor number NRA3204X43200Y05Z12 where "4" is index 6
+    json.forEach((loc, index) => {
+      function sortThings(a,b){
+        return a[0][6] > b[0][6] ? -1 : b[0][6] >  a[0][6] ? 1 : 0; 
+      }
+      console.log(loc)
+      json.sort(sortThings);
+    });
 
     /* load data */
     cdg.data = json;
     for (var i = 0; i < L; i++) {
       console.log(json[0][i]);
       cdg.schema[i].title = json[0][i];
-      //json[0][i] = "";
     }
     cdg.attributes.columnHeaderClickBehavior = 'select';
     cdg.style.columnHeaderCellHorizontalAlignment = 'right';
