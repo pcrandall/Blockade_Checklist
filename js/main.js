@@ -86,7 +86,6 @@ window.addEventListener('load', function () {
       function sortThings(a,b){
         return a[0][6] > b[0][6] ? -1 : b[0][6] >  a[0][6] ? 1 : 0; 
       }
-      console.log(loc)
       json.sort(sortThings);
     });
 
@@ -98,15 +97,27 @@ window.addEventListener('load', function () {
     }
     cdg.attributes.columnHeaderClickBehavior = 'select';
     cdg.style.columnHeaderCellHorizontalAlignment = 'right';
-    cdg.attributes.selectionMode = 'row';
+    //cdg.attributes.selectionMode = 'row';
     cdg.deleteRow(0);
+    cdg.style.CellColor ='yellow'
 
     cdg.addEventListener('click', function (e) {
       if (!e.cell || e.cell.columnIndex !== 0) {
+      console.log(e.cell);
+      parseData(e.cell.data[0]);
         return;
       }
       parseData(e.cell.value);
     });
+
+    cdg.addEventListener('keydown', function (e) {
+          if (!e.cell || e.cell.columnIndex !== 0) {
+          console.log(e.cell);
+          console.log(e.cell.selected);
+            return;
+          }
+          parseData(e.cell.value);
+        });
 
   };
   /** Drop it like it's hot **/
