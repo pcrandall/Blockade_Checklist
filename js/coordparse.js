@@ -22,15 +22,18 @@ var shelf = ["l01", "l02", "l03", "l04", "l05",
     "r01", "r02", "r03", "r04", "r05"
 ];
 
-function parseData() {
+function parseData(e) {
     document.getElementById("resultText").value = "Success!";
     // Reset the shelf indicator. 
     document.getElementsByClassName("shelf").backgroundColor = "#7A8B99";
     for (var i = 0; i < shelf.length; i++) {
         document.getElementById(shelf[i]).style.backgroundColor = "#7A8B99";
     };
-
-    var inputText = document.getElementById("inputText").value;
+    if (!e){
+        var inputText = document.getElementById("inputText").value;
+    }else{
+        var inputText = e;
+    }
     // Empty check
     if (inputText == "" || inputText == null) {
         document.getElementById("resultText").value = "Empty!";
