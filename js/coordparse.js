@@ -87,7 +87,6 @@ function parseData(e) {
                 case "03":
                 case "04":
                 case "05":
-
                     document.getElementById("ytable").innerHTML = yValue;
                     if (zValue[0] == "1") {
                         document.getElementById("l" + yValue).style.backgroundColor = "yellow";
@@ -101,10 +100,15 @@ function parseData(e) {
             if (zValue.length == 1) {
                 if (zValue == "1") {
                     document.getElementById("x11").style.backgroundColor = "yellow";
+                    document.getElementById("x12").style.backgroundColor = "#7A8B99";
+                    document.getElementById("ztable").innerHTML = zValue + "1";
                 } else if (zValue == "2") {
                     document.getElementById("x21").style.backgroundColor = "yellow";
+                    document.getElementById("x22").style.backgroundColor = "#7A8B99";
+                    document.getElementById("ztable").innerHTML = zValue + "1";
                 } else {
                     document.getElementById("resultText").value = "Invalid Z value!";
+                    document.getElementById("ztable").innerHTML = "Invalid Z value!";
                 }
             } else {
                 for (var i = 0; i < rack.length; i++) {
