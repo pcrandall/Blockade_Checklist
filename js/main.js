@@ -54,8 +54,8 @@ cdg.style.width = '50%';
 
 
 function _resize() {
-  _grid.style.height = (window.innerHeight - 200) + "px";
-  _grid.style.width = (window.innerWidth - 200) + "px";
+  _grid.style.height = (window.innerHeight - 400) + "px";
+  _grid.style.width = (window.innerWidth - 10) + "px";
 }
 
 var _onsheet = function(json, sheetnames, select_sheet_cb) {
@@ -70,14 +70,20 @@ var _onsheet = function(json, sheetnames, select_sheet_cb) {
   var L = 0;
   json.forEach(function(r) { if(L < r.length) L = r.length; });
   console.log(L);
-  for(var i = json[0].length; i < L; ++i) {
-    console.log(json[0][i]);
-    json[0][i] = "";
-  }
+  
 
 
   /* load data */
   cdg.data = json;
+for(var i = 0; i < L; i++) {
+    console.log(json[0][i]);
+    cdg.schema[i].title = json [0][i];
+    //json[0][i] = "";
+  }
+  cdg.attributes.columnHeaderClickBehavior = 'select';
+  cdg.style.columnHeaderCellHorizontalAlignment = 'right';
+  //cdg.attributes.selectionMode = 'row';
+  cdg.deleteRow(0);
 };
  /** Drop it like it's hot **/
 DropSheet({
