@@ -17,13 +17,7 @@
     <script src="./js/xlsx.full.min.js"></script>
 </head>
 <style>
-    ul {
-        list-style-type: none;
-        text-align: center;
-        display: inline-block;
-        padding: 0;
-        margin: 0;
-    }
+
 
     #left_side {
         float: left;
@@ -42,7 +36,7 @@
         float: left;
         text-orientation: upright;
         padding: 16.5px 8px 16.5px 8px;
-        margin: calc(((.01vw + 6 * ((100vw - 1200px)) / 1200) + (0.05vh + 6 * ((100vh - 680px) / 680))) / 2);
+        margin: 3.5px 3px 3.5px 3px ;
     }
 
     .location {
@@ -74,32 +68,11 @@
         font-size: calc(((.5vw + 6 * ((100vw - 1200px)) / 1200) + (2.5vh + 6 * ((100vh - 680px) / 680))) / 2) 8px calc(((.4vw + 6 * ((100vw - 1200px)) / 1200) + (2.5vh + 6 * ((100vh - 680px) / 680))) / 2) 8px;
     }
 
-    .rack {
-        margin: 10px;
-        background-color: #7A8B99;
-        border-style: solid;
-        border-width: medium;
-        border-color: black;
-        padding: 1.25vw;
-    }
-
     .invisible_td {
         display: block;
         margin: .1em;
         padding: .05em;
         opacity: 0;
-    }
-
-    .aisle {
-        display: block;
-        margin: .1vh 2vw .1vh 2vw;
-        padding: .04vh 0vw .04vh 0vw;
-        font: "Segoe UI", Arial, Helvetica, sans-serif;
-        font-size: calc(1vw + 6 * ((100vw - 680px) / 680));
-    }
-
-    #wrapper {
-        float: right;
     }
 
     .container {
@@ -111,8 +84,6 @@
         background-color: #EAEAEA;
         height: 100%;
         margin: .5em;
-        font-size: calc(((.35vw + 6 * ((100vw - 680px)) / 680) + (.35vh + 6 * ((100vh - 680px) / 680))) / 2);
-        font-size: 1em;
         font: "Segoe UI", Arial, Helvetica, sans-serif;
         overflow: auto;
     }
@@ -129,10 +100,9 @@
         cursor: pointer;
         background-color: yellow;
         border-radius: 1vw;
-        margin: .5vw;
-        min-width: calc(6vw + 6 * ((100vw - 680px) / 680));
-        font-size: calc(.75vw + 6 * ((100vw - 680px) / 680));
-        padding: .5vw;
+        font-size: 20px;
+        padding: 8px;
+        margin: 8px;
     }
 
     .file {
@@ -140,7 +110,7 @@
         background-color: lightgray;
         border-radius: 1vw;
         margin: .5vw;
-        font-size: calc(.3vw + 6 * ((100vw - 680px) / 680));
+        font-size: 12px;
         padding: .5vw;
     }
 
@@ -159,7 +129,6 @@
 
     h2 {
         font-family: arial;
-        font-size: calc(.8vw + 6 * ((100vw - 320px) / 680));
         margin: 15px;
         font-weight: normal
     }
@@ -167,7 +136,6 @@
     h3 {
         text-align: left;
         font-family: arial;
-        font-size: calc(.65vw + 6 * ((100vw - 320px) / 680));
         padding: 10px;
         margin: .7vw;
         background-color: yellow;
@@ -175,9 +143,16 @@
 
     h4 {
         font-family: arial;
-        font-size: calc(.5vw + 6 * ((100vw - 320px) / 680));
         margin: 5px;
         font-weight: normal
+    }
+
+    ul {
+        list-style-type: none;
+        text-align: center;
+        display: inline-block;
+        padding: 0;
+        margin: 0;
     }
 </style>
 
@@ -189,7 +164,7 @@
     </div>
     <div class="w3-row">
         <div class="w3-third w3-mobile">
-            <div class="w3-panel w3-padding w3-margin">
+            <div class="w3-padding">
                 <h4>Single Coordinate Check:</h4>
                 <input type="text" name="filename" value="" id="inputText" style="width: auto;">
                 </br>
@@ -208,7 +183,7 @@
             </div>
         </div>
         <div class="w3-third w3-mobile">
-            <div class="w3-panel w3-padding ">
+            <div class="w3-padding ">
                 <h4 class="w3-center">Rack Location</h4>
                 <div id="graph_cont">
                     <table class="w3-container container">
@@ -296,7 +271,7 @@
                         </td>
                     </table>
                     <div class="w3-cell-row">
-                        <table class="w3-cell-middle w3-table-all w3-card">
+                        <table class="w3-table-all w3-card-4">
                             <thead>
                                 <tr class="w3-light-grey">
                                     <td>Field: </td>
@@ -321,7 +296,7 @@
             </div>
         </div>
         <div class="w3-third w3-mobile">
-            <div class="w3-padding w3-panel w3-margin">
+            <div class="w3-padding">
                 <h4 class="w3-center">Navette Location</h4>
                 <table class="w3-container container">
                     <tr>
