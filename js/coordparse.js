@@ -18,6 +18,9 @@ var navettes = [1111, 1112, 1113, 1114,
 var rack = [11, 12, 13, 14, 15, 16, 17, 18,
     21, 22, 23, 24, 25, 26, 27, 28
 ];
+
+var height = ["01", "02", "03", "04", "05"];
+
 var shelf = ["l01", "l02", "l03", "l04", "l05",
     "r01", "r02", "r03", "r04", "r05"
 ];
@@ -29,9 +32,9 @@ function parseData(e) {
     for (var i = 0; i < shelf.length; i++) {
         document.getElementById(shelf[i]).style.backgroundColor = "#7A8B99";
     };
-    if (!e){
+    if (!e) {
         var inputText = document.getElementById("inputText").value;
-    }else{
+    } else {
         var inputText = e;
     }
     // Empty check
@@ -79,68 +82,69 @@ function parseData(e) {
                     document.getElementById("ftable").innerHTML = fValue;
                 }
             }
+            //Check the rack height and set the zvalue.
             var yValue = inputText.substring(inputText.lastIndexOf("Y") + 1, inputText.lastIndexOf("Z"));
             var zValue = inputText.substring(inputText.lastIndexOf("Z") + 1);
-            switch (yValue) {
-                case "01":
-                case "02":
-                case "03":
-                case "04":
-                case "05":
-                    document.getElementById("ytable").innerHTML = yValue;
-                    if (zValue[0] == "1") {
-                        document.getElementById("l" + yValue).style.backgroundColor = "yellow";
-                    } else if (zValue[0] == "2") {
-                        document.getElementById("r" + yValue).style.backgroundColor = "yellow";
-                    }
-                    break;
-                default:
-                    document.getElementById("resultText").value = "Invalid Y value!";
-            }
-            if (zValue.length == 1) {
-                if (zValue == "1") {
-                    document.getElementById("x11").style.backgroundColor = "yellow";
-                    document.getElementById("x12").style.backgroundColor = "#7A8B99";
-                    document.getElementById("ztable").innerHTML = zValue + "1";
-                } else if (zValue == "2") {
-                    document.getElementById("x21").style.backgroundColor = "yellow";
-                    document.getElementById("x22").style.backgroundColor = "#7A8B99";
-                    document.getElementById("ztable").innerHTML = zValue + "1";
-                } else {
-                    document.getElementById("resultText").value = "Invalid Z value!";
-                    document.getElementById("ztable").innerHTML = "Invalid Z value!";
-                }
+            validHeight(yValue, zValue);
+            resetLocation(zValue);
+            validLocation(zValue);
+        }
+    }
+
+    function resetLocation(zValue) {
+        for (var i = 0; i < rack.length; i++) {
+            if (zValue != rack[i]) {
+                document.getElementById("x" + rack[i]).style.backgroundColor = "#7A8B99";
             } else {
-                for (var i = 0; i < rack.length; i++) {
-                    if (zValue != rack[i]) {
-                        document.getElementById("x" + rack[i]).style.backgroundColor = "#7A8B99";
-                        document.getElementById("ztable").innerHTML = "Invalid Z value!";
-                    } else {};
+
+            };
+        }
+
+    }
+
+    function validLocation(zValue) {
+        //Check the special case with len == 1
+        if (zValue.length == 1) {
+            if (zValue == "1") {
+                resetLocation("x11");
+                document.getElementById("x11").style.backgroundColor = "yellow";
+                document.getElementById("ztable").innerHTML = zValue + "1";
+            } else if (zValue == "2") {
+                resetLocation("x21");
+                document.getElementById("x21").style.backgroundColor = "yellow";
+                document.getElementById("ztable").innerHTML = zValue + "1";
+            } else {
+                document.getElementById("resultText").value = "Invalid Z value!";
+                document.getElementById("ztable").innerHTML = "Invalid Z value!";
+            }
+        }
+
+        for (var i = 0; i < rack.length; i++) {
+            if (zValue == rack[i]) {
+                document.getElementById("x" + rack[i]).style.backgroundColor = "yellow";
+                document.getElementById("ztable").innerHTML = zValue;
+                break;
+            } else {
+                document.getElementById("resultText").value = "Invalid Z value!";
+            };
+        }
+
+    }
+
+    function validHeight(yValue, zValue) {
+        for (var i = 0; i < height.length; i++) {
+            if (yValue == height[i]) {
+                document.getElementById("ytable").innerHTML = yValue;
+                if (zValue[0] == "1") {
+                    document.getElementById("l" + yValue).style.backgroundColor = "yellow";
+                } else if (zValue[0] == "2") {
+                    document.getElementById("r" + yValue).style.backgroundColor = "yellow";
                 }
-                switch (zValue) {
-                    case "11":
-                    case "12":
-                    case "13":
-                    case "14":
-                    case "15":
-                    case "16":
-                    case "17":
-                    case "18":
-                    case "21":
-                    case "22":
-                    case "23":
-                    case "24":
-                    case "25":
-                    case "26":
-                    case "27":
-                    case "28":
-                        document.getElementById("x" + zValue).style.backgroundColor = "yellow";
-                        document.getElementById("ztable").innerHTML = zValue;
-                        break;
-                    default:
-                        document.getElementById("resultText").value = "Invalid Z value!";
-                }
+                break;
+            } else {
+                document.getElementById("resultText").value = "Invalid Y value!";
             }
         }
     }
+
 }
