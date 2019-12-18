@@ -83,8 +83,8 @@ window.addEventListener('load', function () {
 
     //Sort by floor number NRA3204X43200Y05Z12 where "4" is index 6
     json.forEach((loc, index) => {
-      function sortThings(a,b){
-        return a[0][6] > b[0][6] ? -1 : b[0][6] >  a[0][6] ? 1 : 0; 
+      function sortThings(a, b) {
+        return a[0][6] > b[0][6] ? -1 : b[0][6] > a[0][6] ? 1 : 0;
       }
       json.sort(sortThings);
     });
@@ -97,48 +97,45 @@ window.addEventListener('load', function () {
     }
     cdg.attributes.columnHeaderClickBehavior = 'select';
     cdg.style.columnHeaderCellHorizontalAlignment = 'right';
-    //cdg.attributes.selectionMode = 'row';
+    cdg.attributes.selectionMode = 'row';
+    //first row is the header
     cdg.deleteRow(0);
-    cdg.style.CellColor ='yellow'
 
     cdg.addEventListener('click', function (e) {
       if (!e.cell || e.cell.columnIndex !== 0) {
-      console.log(e.cell);
-      parseData(e.cell.data[0]);
+        parseData(e.cell.data[0]);
         return;
       }
       parseData(e.cell.value);
     });
 
     cdg.addEventListener('keydown', function (e) {
-          if (!e.cell || e.cell.columnIndex !== 0) {
-          console.log(e.cell);
-          console.log(e.cell.selected);
-            return;
-          }
-          parseData(e.cell.value);
-        });
+      if (!e.cell || e.cell.columnIndex !== 0) {
+        console.log(e.cell);
+        console.log(e.cell.selected);
+        console.log(cdg.activeCell)
+        return;
+      }
+      parseData(e.cell.value);
+    });
 
   };
-
-    var sv = document.getElementById("save");
-    sv.addEventListener("click", writeBook);
-
-    function writeBook() {
-        var wb = XLSX.utils.table_to_book(cdg);
-        var d = new Date();
-        let m = d.toLocaleString('default', {
-            month: 'long'
-        });
-        d = d.toJSON().slice(0, 5);
-        var filename = d + m + ' Blockade Checklist Complete.xlsx'
-        var buffer = XLSX.writeFile(wb, filename)
-        var blob = new Blob([buffer], {
-            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        })
-        saveAs(blob, filename);
-    };
-
+//Listen for the save button to be pressed
+  var sv = document.getElementById("save");
+  sv.addEventListener("click", writeBook);
+// Save the workbook
+  function writeBook() {
+    var wb = XLSX.utils.book_new();
+    var ws = XLSX.utils.aoa_to_sheet(cdg.data);
+    XLSX.utils.book_append_sheet(wb, ws)
+    var d = new Date();
+    let m = d.toLocaleString('default', {
+      month: 'long'
+    });
+    d = d.toJSON().slice(0, 5);
+    var filename = d + m + ' Blockade Checklist Complete.xlsx'
+    var buffer = XLSX.writeFile(wb, filename)
+  };
   /** Drop it like it's hot **/
   DropSheet({
     file: _file,
