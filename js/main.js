@@ -129,6 +129,7 @@ window.addEventListener('load', function () {
   sv.addEventListener("click", function (e) {
     cdg.insertRow(firstRow, 0);
     writeBook();
+    cdg.deleteRow(0);
   });
 
 // Save the workbook
