@@ -123,9 +123,9 @@ function parseData(e) {
             if (zValue == rack[i]) {
                 document.getElementById("x" + rack[i]).style.backgroundColor = "yellow";
                 document.getElementById("ztable").innerHTML = zValue;
+                document.getElementById("resultText").value = "Success!";
                 break;
             } else {
-                document.getElementById("resultText").value = "Invalid Z value!";
             };
         }
 
@@ -142,7 +142,6 @@ function parseData(e) {
                 }
                 break;
             } else {
-                document.getElementById("resultText").value = "Invalid Y value!";
             }
         }
     }

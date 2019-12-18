@@ -62,8 +62,8 @@ window.addEventListener('load', function () {
 
 
   function _resize() {
-    _grid.style.height = (window.innerHeight - 400) + "px";
-    _grid.style.width = (window.innerWidth - 10) + "px";
+    _grid.style.height = (window.innerHeight - 450) + "px";
+    _grid.style.width = window.innerWidth  + "px";
   }
 
   var _onsheet = function (json, sheetnames, select_sheet_cb) {
@@ -91,6 +91,9 @@ window.addEventListener('load', function () {
 
     /* load data */
     cdg.data = json;
+    //first row is the header, save the first row for later use. 
+    firstRow = cdg.data[0];
+
     for (var i = 0; i < L; i++) {
       console.log(json[0][i]);
       cdg.schema[i].title = json[0][i];
@@ -98,12 +101,13 @@ window.addEventListener('load', function () {
     cdg.attributes.columnHeaderClickBehavior = 'select';
     cdg.style.columnHeaderCellHorizontalAlignment = 'right';
     cdg.attributes.selectionMode = 'row';
-    //first row is the header
+    //first row is the header now, remove it
     cdg.deleteRow(0);
 
     cdg.addEventListener('click', function (e) {
       if (!e.cell || e.cell.columnIndex !== 0) {
         parseData(e.cell.data[0]);
+        console.log(cdg.data[0]);
         return;
       }
       parseData(e.cell.value);
@@ -122,7 +126,11 @@ window.addEventListener('load', function () {
   };
 //Listen for the save button to be pressed
   var sv = document.getElementById("save");
-  sv.addEventListener("click", writeBook);
+  sv.addEventListener("click", function (e) {
+    cdg.insertRow(firstRow, 0);
+    writeBook();
+  });
+
 // Save the workbook
   function writeBook() {
     var wb = XLSX.utils.book_new();
