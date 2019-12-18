@@ -120,6 +120,25 @@ window.addEventListener('load', function () {
         });
 
   };
+
+    var sv = document.getElementById("save");
+    sv.addEventListener("click", writeBook);
+
+    function writeBook() {
+        var wb = XLSX.utils.table_to_book(cdg);
+        var d = new Date();
+        let m = d.toLocaleString('default', {
+            month: 'long'
+        });
+        d = d.toJSON().slice(0, 5);
+        var filename = d + m + ' Blockade Checklist Complete.xlsx'
+        var buffer = XLSX.writeFile(wb, filename)
+        var blob = new Blob([buffer], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        })
+        saveAs(blob, filename);
+    };
+
   /** Drop it like it's hot **/
   DropSheet({
     file: _file,
