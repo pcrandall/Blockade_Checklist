@@ -8,6 +8,8 @@
     <meta name="viewport" content="initial-scale=1.0">
     <link rel="stylesheet" href="./css/w3.css">
     <link rel="stylesheet" href="./css/sheetjs.css">
+    <script src="./js/Blob.js"></script>
+    <script src="./js/FileSaver.js"></script>
     <script src="./js/coordparse.js"></script>
     <script src="./js/spin.js"></script>
     <script src="./js/shim.js"></script>
@@ -17,8 +19,6 @@
     <script src="./js/xlsx.full.min.js"></script>
 </head>
 <style>
-
-
     #left_side {
         float: left;
     }
@@ -177,6 +177,8 @@
                 </br>
                 <h4>Select Blockade Checklist File:</h4>
                 <input class="file" id='file' type="file">
+                </br>
+                <input type="button" class="smbutton" id="save" value="Save Blockade Checklist">
                 </br>
                 <label for="file"></label>
                 <div id="buttons"></div>
