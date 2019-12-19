@@ -57,13 +57,15 @@ window.addEventListener('load', function () {
     parentNode: _grid
   });
 
-  cdg.style.height = '50%';
-  cdg.style.width = '50%';
+  cdg.style.height = '100%';
+  cdg.style.width = '100%';
 
 
   function _resize() {
-    _grid.style.height = (window.innerHeight - 450) + "px";
-    _grid.style.width = window.innerWidth + "px";
+    //_grid.style.height = (window.innerHeight - 450) + "px";
+    //_grid.style.width = window.innerWidth + "px";
+    _grid.style.height = "265px";
+    _grid.style.width = "810px";
   }
 
   var _onsheet = function (json, sheetnames, select_sheet_cb) {
