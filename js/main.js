@@ -63,7 +63,7 @@ window.addEventListener('load', function () {
 
   function _resize() {
     _grid.style.height = (window.innerHeight - 450) + "px";
-    _grid.style.width = window.innerWidth  + "px";
+    _grid.style.width = window.innerWidth + "px";
   }
 
   var _onsheet = function (json, sheetnames, select_sheet_cb) {
@@ -80,14 +80,65 @@ window.addEventListener('load', function () {
       if (L < r.length) L = r.length;
     });
     console.log(L);
+    let f1 = [];
+    let f2 = [];
+    let f3 = [];
+    let f4 = [];
+    const sortedData = [];
 
     //Sort by floor number NRA3204X43200Y05Z12 where "4" is index 6
     json.forEach((loc, index) => {
+      function sortLevel(a) {
+        let floor = a[0][6]
+        switch (floor) {
+          case "1":
+            f1.push(a);
+            break;
+          case "2":
+            f2.push(a);
+            break;
+          case "3":
+            f3.push(a);
+            break;
+          case "4":
+            f4.push(a);
+            break;
+          default:
+        }
+      };
+
       function sortThings(a, b) {
         return a[0][6] > b[0][6] ? -1 : b[0][6] > a[0][6] ? 1 : 0;
       }
-      json.sort(sortThings);
+
+      function sortNav(a, b) {
+        var nav1 = a[0][3] + a[0][4];
+        var nav2 = b[0][3] + b[0][4];
+        return nav1 > nav2 ? -1 : nav2 > nav1 ? 1 : 0;
+        //return a[0][6] > b[0][6] ? -1 : b[0][6] > a[0][6] ? 1 : 0;
+      }
+      sortLevel(loc);
+      // json.sort(sortThings);
+      f1.sort(sortNav);
+      f2.sort(sortNav);
+      f3.sort(sortNav);
+      f4.sort(sortNav);
     });
+
+    f4.forEach((loc, index) => {
+      sortedData.push(loc);
+    });
+    f3.forEach((loc, index) => {
+      sortedData.push(loc);
+    });
+    f2.forEach((loc, index) => {
+      sortedData.push(loc);
+    });
+    f1.forEach((loc, index) => {
+      sortedData.push(loc);
+    });
+
+    console.log(sortedData);
 
     /* load data */
     cdg.data = json;
@@ -98,6 +149,8 @@ window.addEventListener('load', function () {
       console.log(json[0][i]);
       cdg.schema[i].title = json[0][i];
     }
+// Data is sorted good here
+    //cdg.data = sortedData;
     cdg.attributes.columnHeaderClickBehavior = 'select';
     cdg.style.columnHeaderCellHorizontalAlignment = 'right';
     cdg.attributes.selectionMode = 'row';
@@ -124,7 +177,7 @@ window.addEventListener('load', function () {
     });
 
   };
-//Listen for the save button to be pressed
+  //Listen for the save button to be pressed
   var sv = document.getElementById("save");
   sv.addEventListener("click", function (e) {
     cdg.insertRow(firstRow, 0);
@@ -132,7 +185,7 @@ window.addEventListener('load', function () {
     cdg.deleteRow(0);
   });
 
-// Save the workbook
+  // Save the workbook
   function writeBook() {
     var wb = XLSX.utils.book_new();
     var ws = XLSX.utils.aoa_to_sheet(cdg.data);
