@@ -108,34 +108,17 @@ window.addEventListener('load', function () {
       };
 
       function sortThings(a, b) {
-        return a[0][6] > b[0][6] ? -1 : b[0][6] > a[0][6] ? 1 : 0;
-      }
-
-      function sortNav(a, b) {
         var nav1 = a[0][3] + a[0][4];
         var nav2 = b[0][3] + b[0][4];
-        return nav1 > nav2 ? -1 : nav2 > nav1 ? 1 : 0;
-        //return a[0][6] > b[0][6] ? -1 : b[0][6] > a[0][6] ? 1 : 0;
+        //if on the same floor
+        if (a[0][6] == b[0][6]){
+          return nav1 > nav2 ? -1 : nav2 > nav1 ? 1: 0;
+        }else{
+          return a[0][6] > b[0][6] ? -1 : b[0][6] > a[0][6] ? 1 : 0;
+        }
       }
-      sortLevel(loc);
-      // json.sort(sortThings);
-      f1.sort(sortNav);
-      f2.sort(sortNav);
-      f3.sort(sortNav);
-      f4.sort(sortNav);
-    });
-
-    f4.forEach((loc, index) => {
-      sortedData.push(loc);
-    });
-    f3.forEach((loc, index) => {
-      sortedData.push(loc);
-    });
-    f2.forEach((loc, index) => {
-      sortedData.push(loc);
-    });
-    f1.forEach((loc, index) => {
-      sortedData.push(loc);
+      
+      json.sort(sortThings);
     });
 
     console.log(sortedData);
@@ -143,14 +126,12 @@ window.addEventListener('load', function () {
     /* load data */
     cdg.data = json;
     //first row is the header, save the first row for later use. 
-    firstRow = cdg.data[0];
-
+    firstRow = json[0];
     for (var i = 0; i < L; i++) {
-      console.log(json[0][i]);
-      cdg.schema[i].title = json[0][i];
+      cdg.schema[i].title = cdg.data[0][i];
+      console.log(cdg.schema[i].title);
     }
-// Data is sorted good here
-    //cdg.data = sortedData;
+
     cdg.attributes.columnHeaderClickBehavior = 'select';
     cdg.style.columnHeaderCellHorizontalAlignment = 'right';
     cdg.attributes.selectionMode = 'row';
