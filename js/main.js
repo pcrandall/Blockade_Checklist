@@ -174,7 +174,7 @@ window.addEventListener('load', function () {
     var wscols =[
       {wch: 25}, //chars
       {wpx: 125}, //pixels
-      {width: 15} // max digit width
+      {width: 20} // max digit width
     ];
     ws['!cols'] = wscols; 
 
