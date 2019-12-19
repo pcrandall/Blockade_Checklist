@@ -170,6 +170,14 @@ window.addEventListener('load', function () {
   function writeBook() {
     var wb = XLSX.utils.book_new();
     var ws = XLSX.utils.aoa_to_sheet(cdg.data);
+    //set the column width
+    var wscols =[
+      {wch: 25}, //chars
+      {wpx: 125}, //pixels
+      {width: 15} // max digit width
+    ];
+    ws['!cols'] = wscols; 
+
     XLSX.utils.book_append_sheet(wb, ws)
     var d = new Date();
     let m = d.toLocaleString('default', {
