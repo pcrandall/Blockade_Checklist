@@ -3,6 +3,21 @@
                 display: none;
             }
 
+            #one {
+                display: inline-block;
+                width: 100%;
+            }
+
+            #two {
+                display: inline-block;
+                width: 100%;
+            }
+
+            #three {
+                display: inline-block;
+                width: 100%;
+            }
+
             #aisle_center {
                 border: .15em solid black;
                 background-color: #B2BCC4;
@@ -35,6 +50,21 @@
                 display: inline;
             }
 
+            #one {
+                display: inline;
+                width: 33.3%;
+            }
+
+            #two {
+                display: inline;
+                width: 33.3%;
+            }
+
+            #three {
+                display: inline;
+                width: 33.3%;
+            }
+
             #aisle_center {
                 border: .15em solid black;
                 background-color: #B2BCC4;
@@ -54,7 +84,7 @@
                 border-width: thin;
                 border-color: black;
                 padding: 1px calc(((.2vw + 6 * ((100vw - 1200px)) / 1200) + (.5vh + 6 * ((100vh - 680px) / 680))) / 2) 1px calc(((.2vw + 6 * ((100vw - 1200px)) / 1200) + (.5vh + 6 * ((100vh - 680px) / 680))) / 2);
-                font-size: calc(((.5vw + 6 * ((100vw - 1200px)) / 1200) + (2.5vh + 6 * ((100vh - 680px) / 680))) / 2) 8px calc(((.4vw + 6 * ((100vw - 1200px)) / 1200) + (2.5vh + 6 * ((100vh - 680px) / 680))) / 2) 8px;
+                font-size: calc(((.6vw + 6 * ((100vw - 1200px)) / 1200) + (3vh + 6 * ((100vh - 680px) / 680))) / 2) 8px calc(((.4vw + 6 * ((100vw - 1200px)) / 1200) + (2.5vh + 6 * ((100vh - 680px) / 680))) / 2) 8px;
             }
         }
 
