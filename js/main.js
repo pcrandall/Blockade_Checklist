@@ -78,10 +78,10 @@ window.addEventListener('load', function () {
 
     /* set up table headers*/
     var L = 0;
-    json.forEach(function (row) {
-      if (L < row.length) L = row.length;
+    json.forEach(function (r) {
+      if (L < r.length) L = r.length;
     });
-    //console.log(L);
+    console.log(L);
 
     //Sort by floor number NRA3204X43200Y05Z12 where "4" is index 6
     json.forEach((loc, index) => {
@@ -90,9 +90,9 @@ window.addEventListener('load', function () {
         var nav1 = a[0][3] + a[0][4];
         var nav2 = b[0][3] + b[0][4];
         //if on the same floor
-        if (a[0][6] == b[0][6]) {
-          return nav1 > nav2 ? -1 : nav2 > nav1 ? 1 : 0;
-        } else {
+        if (a[0][6] == b[0][6]){
+          return nav1 > nav2 ? -1 : nav2 > nav1 ? 1: 0;
+        }else{
           return a[0][6] > b[0][6] ? -1 : b[0][6] > a[0][6] ? 1 : 0;
         }
       }
@@ -104,15 +104,15 @@ window.addEventListener('load', function () {
     if (json[0].length < 2) {
       json.unshift(["STOLOC", "LU", "Verified LU"]);
     }
-
     /* load data */
     cdg.data = json;
 
     //first row is the header, save the first row for later use. 
     firstRow = json[0];
-    for (var i = 0; L < 3 ? i < 3 : i < L; i++) {
+    L < 2 ? L = 2 : L = L; 
+    for (var i = 0; i < L; i++) {
       cdg.schema[i].title = cdg.data[0][i];
-      //console.log(cdg.schema[i].title);
+      console.log(cdg.schema[i].title);
     }
 
     cdg.attributes.columnHeaderClickBehavior = 'select';
@@ -124,15 +124,24 @@ window.addEventListener('load', function () {
     cdg.addEventListener('click', function (e) {
       if (!e.cell || e.cell.columnIndex !== 0) {
         parseData(e.cell.data[0]);
-        //console.log(cdg.data[0]);
+        console.log(cdg.data[0]);
         return;
       }
       parseData(e.cell.value);
     });
 
-    //focus the bottom of the screen after the sheet loads. 
-    window.scrollTo(0, document.body.scrollHeight);
+    cdg.addEventListener('keydown', function (e) {
+          if (!e.cell || e.cell.columnIndex !== 0) {
+            console.log(e.cell);
+            console.log(e.cell.selected);
+            console.log(cdg.activeCell)
+            return;
+          }
+          parseData(e.cell.value);
+        });
 
+    //focus the bottom of the screen after the sheet loads. 
+    //window.scrollTo(0, document.body.scrollHeight);
   };
   //Listen for the save button to be pressed
   var sv = document.getElementById("save");
@@ -147,15 +156,10 @@ window.addEventListener('load', function () {
     var wb = XLSX.utils.book_new();
     var ws = XLSX.utils.aoa_to_sheet(cdg.data);
     //set the column width
-    var wscols = [{
-        wch: 25
-      }, //chars
-      {
-        wpx: 125
-      }, //pixels
-      {
-        width: 20
-      } // max digit width
+    var wscols =[
+      {wch: 25}, //chars
+      {wpx: 125}, //pixels
+      {width: 20} // max digit width
     ];
     ws['!cols'] = wscols;
 
