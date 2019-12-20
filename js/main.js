@@ -82,32 +82,9 @@ window.addEventListener('load', function () {
       if (L < r.length) L = r.length;
     });
     console.log(L);
-    let f1 = [];
-    let f2 = [];
-    let f3 = [];
-    let f4 = [];
-    const sortedData = [];
 
     //Sort by floor number NRA3204X43200Y05Z12 where "4" is index 6
     json.forEach((loc, index) => {
-      function sortLevel(a) {
-        let floor = a[0][6]
-        switch (floor) {
-          case "1":
-            f1.push(a);
-            break;
-          case "2":
-            f2.push(a);
-            break;
-          case "3":
-            f3.push(a);
-            break;
-          case "4":
-            f4.push(a);
-            break;
-          default:
-        }
-      };
 
       function sortThings(a, b) {
         var nav1 = a[0][3] + a[0][4];
@@ -122,8 +99,6 @@ window.addEventListener('load', function () {
       
       json.sort(sortThings);
     });
-
-    console.log(sortedData);
 
     /* load data */
     cdg.data = json;
