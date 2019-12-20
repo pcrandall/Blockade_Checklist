@@ -46,7 +46,7 @@
             .ssi-header-logo {
                 float: right;
                 height: 20px;
-                margin: 8px;
+                margin: 10px;
                 display: inline;
             }
 
@@ -127,14 +127,16 @@
             margin-right: auto;
         }
 
-        body {
+        body{
             background-color: #EAEAEA;
             height: 100%;
             margin: .5em;
             font: "Segoe UI", Arial, Helvetica, sans-serif;
-            overflow: auto;
         }
-
+        html{
+            overflow-x: auto;
+            overflow-y: auto;
+        }
         p,
         h1,
         h2,
@@ -149,14 +151,12 @@
             border-radius: 8px;
             font-size: 20px;
             padding: 8px;
-            margin: 8px;
         }
 
         .file {
             cursor: pointer;
             background-color: lightgray;
             border-radius: 8px;
-            margin: 10px;
             font-size: 12px;
             padding: 5px;
         }
@@ -177,8 +177,8 @@
         h3 {
             text-align: left;
             font-family: arial;
-            padding: 10px;
-            margin: 10px;
+            padding: 8px;
+            margin: 8px;
             background-color: yellow;
         }
 
