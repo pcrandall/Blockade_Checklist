@@ -1,10 +1,10 @@
 // A very basic web server in node.js
 // Stolen from: Node.js for Front-End Developers by Garann Means (p. 9-10)
 
-var port = 8000;
+var port = 8080;
 var serverUrl = "127.0.0.1";
 
-var http = require("http-server");
+var http = require("dynamic-http-server");
 var path = require("path");
 var fs = require("fs");
 var checkMimeType = true;
