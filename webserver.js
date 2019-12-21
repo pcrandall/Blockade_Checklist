@@ -55,6 +55,7 @@ http.createServer( function(req, res) {
 
 }).listen(port, serverUrl);
 
+
 function getFile(localPath, res, mimeType) {
 	fs.readFile(localPath, function(err, contents) {
 		if(!err) {
