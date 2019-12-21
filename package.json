@@ -1,0 +1,23 @@
+{
+  "name": "blockade-checklist",
+  "version": "1.0.0",
+  "description": "A tool for checking mfs coordinates. ",
+  "main": "webserver.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/make-go-fast-good/Blockade-.git"
+  },
+  "author": "phillip.crandall",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/make-go-fast-good/Blockade-/issues"
+  },
+  "homepage": "https://github.com/make-go-fast-good/Blockade-#readme",
+  "dependencies": {
+    "dynamic-http-server": "^0.1.3",
+    "http-server": "^0.12.0"
+  }
+}
