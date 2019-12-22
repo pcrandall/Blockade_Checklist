@@ -4,6 +4,7 @@
 var port = 3000;
 var serverUrl = "127.0.0.1";
 
+var opn = require('opn');
 var http = require("http-server");
 var path = require("path");
 var fs = require("fs");
@@ -54,8 +55,9 @@ http.createServer( function(req, res) {
 	}
 
 }).listen(port, serverUrl);
-http.open('http://127.0.0.1:3000/index.html');
 
+//launch the page. 
+opn('http://127.0.0.1:3000/index.html');
 
 function getFile(localPath, res, mimeType) {
 	fs.readFile(localPath, function(err, contents) {
