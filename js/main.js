@@ -9,6 +9,7 @@ window.addEventListener('load', function () {
   }
   var _workend = function () {
     spinner.stop();
+    _scroll();
   }
 
   /** Alerts **/
@@ -66,6 +67,11 @@ window.addEventListener('load', function () {
     //_grid.style.width = window.innerWidth + "px";
     _grid.style.height = "266px";
     _grid.style.width = "810px";
+  }
+  
+  function _scroll(){
+    //focus the bottom of the screen after the sheet loads. 
+    window.scrollTo(0, document.body.scrollHeight);
   }
 
   var _onsheet = function (json, sheetnames, select_sheet_cb) {
@@ -125,9 +131,9 @@ window.addEventListener('load', function () {
       if (!e.cell || e.cell.columnIndex !== 0) {
         parseData(e.cell.data[0]);
         console.log(cdg.data[0]);
-        return;
+      }else{
+        parseData(e.cell.value);
       }
-      parseData(e.cell.value);
     });
 
     cdg.addEventListener('keydown', function (e) {
@@ -140,8 +146,7 @@ window.addEventListener('load', function () {
           parseData(e.cell.value);
         });
 
-    //focus the bottom of the screen after the sheet loads. 
-    //window.scrollTo(0, document.body.scrollHeight);
+
   };
   //Listen for the save button to be pressed
   var sv = document.getElementById("save");
