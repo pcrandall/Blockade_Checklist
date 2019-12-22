@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/make-go-fast-good/Blockade-#readme",
   "dependencies": {
-    "dynamic-http-server": "^0.1.3"
+    "http-server": "^0.12.0"
   }
 }
