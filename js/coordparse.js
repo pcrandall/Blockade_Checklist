@@ -51,7 +51,7 @@ function parseData(e) {
     } else {
         // NRA check
         if (inputText[0] != "N" || inputText[1] != "R" || inputText[2] != "A") {
-                document.getElementById("resultText").style.backgroundColor = "red";
+            document.getElementById("resultText").style.backgroundColor = "red";
             if (inputText[0] == "T" || inputText[1] == "G" || inputText[2] == "A") {
                 transferPos = true;
                 document.getElementById("resultText").value = "Transfer position!";
@@ -82,11 +82,11 @@ function parseData(e) {
                 document.getElementById("resultText").style.backgroundColor = "red";
                 document.getElementById("resultText").value = "Invalid X: not a number!";
             } else {
-                console.log(transferPos);
-                if (xValues.indexOf(parseInt(xValue)) == -1 && transferPos == false){
+                //console.log(transferPos);
+                if (xValues.indexOf(parseInt(xValue)) == -1 && transferPos == false) {
                     document.getElementById("resultText").style.backgroundColor = "red";
                     document.getElementById("resultText").value = "Invalid X value!";
-                }else {
+                } else {
                     var fValue = 0;
                     while (xValue > -1) {
                         xValue -= 2880;
