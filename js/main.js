@@ -9,7 +9,10 @@ window.addEventListener('load', function () {
   }
   var _workend = function () {
     spinner.stop();
-    _scroll();
+  }
+  var _scroll = function (){
+      //focus the bottom of the screen after the sheet loads. 
+      window.scrollTo(0, document.body.scrollHeight);
   }
 
   /** Alerts **/
@@ -64,15 +67,13 @@ window.addEventListener('load', function () {
 
   function _resize() {
     //_grid.style.height = (window.innerHeight - 450) + "px";
-    //_grid.style.width = window.innerWidth + "px";
+    //_grid.style.width = (window.innerWidth - 10) + "px";
     _grid.style.height = "266px";
     _grid.style.width = "810px";
+
   }
   
-  function _scroll(){
-    //focus the bottom of the screen after the sheet loads. 
-    window.scrollTo(0, document.body.scrollHeight);
-  }
+
 
   var _onsheet = function (json, sheetnames, select_sheet_cb) {
     //make_buttons(sheetnames, select_sheet_cb);
@@ -121,9 +122,10 @@ window.addEventListener('load', function () {
       console.log(cdg.schema[i].title);
     }
 
-    cdg.attributes.columnHeaderClickBehavior = 'select';
+    cdg.attributes.columnHeaderClickBehavior = 'none';
     cdg.style.columnHeaderCellHorizontalAlignment = 'right';
     cdg.attributes.selectionMode = 'row';
+
     //first row is the header now, remove it
     cdg.deleteRow(0);
 
@@ -136,18 +138,8 @@ window.addEventListener('load', function () {
       }
     });
 
-    cdg.addEventListener('keydown', function (e) {
-          if (!e.cell || e.cell.columnIndex !== 0) {
-            console.log(e.cell);
-            console.log(e.cell.selected);
-            console.log(cdg.activeCell)
-            return;
-          }
-          parseData(e.cell.value);
-        });
-
-
   };
+
   //Listen for the save button to be pressed
   var sv = document.getElementById("save");
   sv.addEventListener("click", function (e) {
@@ -186,7 +178,7 @@ window.addEventListener('load', function () {
     drop: _target,
     on: {
       workstart: _workstart,
-      workend: _workend,
+      workend: _workend, 
       sheet: _onsheet,
       foo: 'bar'
     },
