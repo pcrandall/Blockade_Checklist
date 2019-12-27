@@ -118,6 +118,9 @@
             font-size: 20px;
             padding: 8px;
         }
+        .filename {
+            font-size: 12px;
+        }
 
         .file {
             cursor: pointer;

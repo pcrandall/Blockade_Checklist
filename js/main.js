@@ -14,6 +14,25 @@ window.addEventListener('load', function () {
       //focus the bottom of the screen after the sheet loads. 
       window.scrollTo(0, document.body.scrollHeight);
   }
+  var _filename = function(){
+    var d = new Date();
+    /*
+    let m = d.toLocaleString('default', {
+      month: 'long'
+    });
+    */
+
+    d = d.toJSON().slice(0, 10);
+
+    if (wbName.value != null){
+      var filename = _file.value.slice(12, _file.value.length -5) + "_complete"; 
+      console.log(_file);
+    }else{
+      var filename = wbName.value + '_complete'
+    }
+
+    return filename;
+  }
 
   /** Alerts **/
   var _badfile = function () {
@@ -64,7 +83,6 @@ window.addEventListener('load', function () {
   cdg.style.height = '100%';
   cdg.style.width = '100%';
 
-
   function _resize() {
     //_grid.style.height = (window.innerHeight - 450) + "px";
     //_grid.style.width = (window.innerWidth - 10) + "px";
@@ -72,11 +90,14 @@ window.addEventListener('load', function () {
     _grid.style.width = "810px";
 
   }
-  
-
 
   var _onsheet = function (json, sheetnames, select_sheet_cb) {
     //make_buttons(sheetnames, select_sheet_cb);
+
+  wbName.value = _filename();
+  console.log("wbName.value");
+  console.log(wbName.value);
+
     document.getElementById('drop').style.display = "none";
 
     /* show grid */
@@ -161,20 +182,16 @@ window.addEventListener('load', function () {
     ws['!cols'] = wscols;
 
     XLSX.utils.book_append_sheet(wb, ws)
-    var d = new Date();
-    /*
-    let m = d.toLocaleString('default', {
-      month: 'long'
-    });
-    */
 
-    d = d.toJSON().slice(0, 10);
-    var filename = d + '_Blockade Checklist Complete.xlsx'
+    var filename = wbName.value + '.xlsx';
     var buffer = XLSX.writeFile(wb, filename)
   };
+
+
+
   /** Drop it like it's hot **/
   DropSheet({
-    file: _file,
+    file: _file, _filename,
     drop: _target,
     on: {
       workstart: _workstart,
