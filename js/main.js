@@ -64,7 +64,7 @@ window.addEventListener('load', function () {
   function _resize() {
     //_grid.style.height = (window.innerHeight - 450) + "px";
     //_grid.style.width = (window.innerWidth - 10) + "px";
-    _grid.style.height = "266px";
+    _grid.style.height = "145px";
     _grid.style.width = "810px";
 
   }
