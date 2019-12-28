@@ -24,7 +24,7 @@ window.addEventListener('load', function () {
     */
     if (wbName.value != null) {
       var filename = _file.value.slice(12, _file.value.length - 5) + "_complete";
-      console.log(_file);
+      //console.log(_file);
     } else {
       var filename = wbName.value + '_complete'
     }
@@ -49,25 +49,6 @@ window.addEventListener('load', function () {
     alertify.alert('We unfortunately dropped the ball here.  Please test the file using the <a href="/js-xlsx/">raw parser</a>.  If there are issues with the file processor, please send this file to <a href="mailto:dev@sheetjs.com?subject=I+broke+your+stuff">dev@sheetjs.com</a> so we can make things right.', function () {});
   };
 
-  /* make the buttons for the sheets */
-  var make_buttons = function (sheetnames, cb) {
-    var buttons = document.getElementById('buttons');
-    buttons.innerHTML = "";
-    sheetnames.forEach(function (s, idx) {
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.name = 'btn' + idx;
-      btn.text = s;
-      var txt = document.createElement('h3');
-      txt.innerText = s;
-      btn.appendChild(txt);
-      btn.addEventListener('click', function () {
-        cb(idx);
-      }, false);
-      buttons.appendChild(btn);
-      buttons.appendChild(document.createElement('br'));
-    });
-  };
   var _target = document.getElementById('drop');
   var _file = document.getElementById('file');
   var _grid = document.getElementById('grid');
@@ -89,20 +70,23 @@ window.addEventListener('load', function () {
   }
 
   var _onsheet = function (json, sheetnames, select_sheet_cb) {
-    //make_buttons(sheetnames, select_sheet_cb);
-
+    //reset everything.
     resultText.value = "";
+    document.getElementById("resultText").style.backgroundColor = "white";
     inputText.value = "";
     wbName.value = _filename();
+
     /*
     console.log("wbName.value");
     console.log(wbName.value);
     */
+
     //remove the drop target when the sheet loads. 
     document.getElementById('drop').style.display = "none";
 
     /* show grid */
     _grid.style.display = "block";
+    _scroll();
     _resize();
 
     //Sort by floor number NRA3204X43200Y05Z12 where "4" is index 6
@@ -141,7 +125,8 @@ window.addEventListener('load', function () {
     cdg.style.columnHeaderCellHorizontalAlignment = 'right';
     cdg.attributes.selectionMode = 'row';
     cdg.attributes.snapToRow = true;
-    cdg.attributes.scrollHeight = 100;
+    cdg.attributes.scrollIndexRect = 15
+
     //first row is the header now, remove it
     cdg.deleteRow(0);
 
