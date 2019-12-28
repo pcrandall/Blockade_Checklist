@@ -62,32 +62,25 @@ window.addEventListener('load', function () {
   cdg.style.width = '100%';
 
   function _resize() {
-    //_grid.style.height = (window.innerHeight - 450) + "px";
-    //_grid.style.width = (window.innerWidth - 10) + "px";
-    _grid.style.height = "145px";
+    _grid.style.height = "150px";
     _grid.style.width = "810px";
-
   }
 
   var _onsheet = function (json, sheetnames, select_sheet_cb) {
+
     //reset everything.
     resultText.value = "";
     document.getElementById("resultText").style.backgroundColor = "white";
     inputText.value = "";
     wbName.value = _filename();
 
-    /*
-    console.log("wbName.value");
-    console.log(wbName.value);
-    */
-
     //remove the drop target when the sheet loads. 
     document.getElementById('drop').style.display = "none";
 
     /* show grid */
     _grid.style.display = "block";
-    _scroll();
     _resize();
+    //_scroll();
 
     //Sort by floor number NRA3204X43200Y05Z12 where "4" is index 6
     json.forEach((loc, index) => {
@@ -106,18 +99,30 @@ window.addEventListener('load', function () {
       json.sort(sortThings);
     });
 
-    //Check the lenght, make sure we have at least three columns for the sheet.
+
+    //Check the length, make sure we have at least three columns for the sheet.
     if (json[0].length < 2) {
       json.unshift(["STOLOC", "LU", "Verified LU"]);
     }
+
     /* load data */
     cdg.data = json;
 
     //first row is the header, save the first row for later use. 
     firstRow = json[0];
+
+    let sortedCols = sortColumns(firstRow);
+    console.log(sortedCols);
+    let order = [sortedCols.STOLOC.index, sortedCols.LUID.index, sortedCols.verifiedLUID.index];
+
+    console.log(order);
+    cdg.columnOrder = order;
+
+
+
     //write the headers.
     firstRow.forEach((item, index) => {
-      cdg.schema[index].title = item; 
+      cdg.schema[index].title = item;
       //console.log(item);
     });
 
@@ -125,7 +130,7 @@ window.addEventListener('load', function () {
     cdg.style.columnHeaderCellHorizontalAlignment = 'right';
     cdg.attributes.selectionMode = 'row';
     cdg.attributes.snapToRow = true;
-    cdg.attributes.scrollIndexRect = 15
+    //cdg.attributes.scrollIndexRect = 15
 
     //first row is the header now, remove it
     cdg.deleteRow(0);
@@ -152,8 +157,10 @@ window.addEventListener('load', function () {
 
   // Save the workbook
   function writeBook() {
+
     var wb = XLSX.utils.book_new();
     var ws = XLSX.utils.aoa_to_sheet(cdg.data);
+
     //set the column width
     var wscols = [{
         wch: 25
@@ -170,10 +177,55 @@ window.addEventListener('load', function () {
     XLSX.utils.book_append_sheet(wb, ws)
 
     var filename = wbName.value + '.xlsx';
-    var buffer = XLSX.writeFile(wb, filename)
+    //Save the workbook
+    XLSX.writeFile(wb, filename)
   };
 
+  function sortColumns(r) {
 
+    let cols = {
+      STOLOC: {
+        found: false,
+        index: null
+      },
+      LUID: {
+        found: false,
+        index: null
+      },
+      verifiedLUID: {
+        found: false,
+        index: null
+      }
+    };
+
+    r.forEach((item, index) => {
+
+      console.log('item ' + item);
+      console.log('index ' + index);
+
+      //check to see if string exists STOLOC LUID Verified
+      console.log('STOLOC check ' + item.includes("STOLOC"));
+      if ((item.includes("STOLOC") || item.includes("NRA")) && cols.STOLOC.found == false) {
+        cols.STOLOC.index = index;
+        cols.STOLOC.found = true;
+      }
+      //check for the LUID string to identify column
+      console.log('LUID check  ' + (item.includes("LU") && !(item.includes("erif"))));
+      if ((item.includes("LU") || item.includes("ID") && !(item.includes("erif"))) && cols.LUID.found == false) {
+        cols.LUID.index = index;
+        cols.LUID.found = true;
+      }
+      //check to see if verified exists within data (incomplete workbook)
+      console.log('Verified check ' + item.includes("erif"));
+      if (item.includes("erif") && cols.verifiedLUID.found == false) {
+        cols.verifiedLUID.index = index;
+        cols.verifiedLUID.found = true;
+      }
+    })
+
+    return cols;
+
+  }
 
   /** Drop it like it's hot **/
   DropSheet({
@@ -194,4 +246,5 @@ window.addEventListener('load', function () {
       foo: 'bar'
     }
   })
+
 });
