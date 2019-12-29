@@ -1,6 +1,3 @@
-/* oss.sheetjs.com (C) 2014-present SheetJS -- http://sheetjs.com */
-/* vim: set ts=2: */
-
 window.addEventListener('load', function () {
   /** Spinner **/
   var spinner;
@@ -10,21 +7,10 @@ window.addEventListener('load', function () {
   var _workend = function () {
     spinner.stop();
   }
-  var _scroll = function () {
-    //focus the bottom of the screen after the sheet loads. 
-    window.scrollTo(0, document.body.scrollHeight);
-  }
+  /** filename input **/
   var _filename = function () {
-        /*
-        var d = new Date();
-        let m = d.toLocaleString('default', {
-          month: 'long'
-        });
-        d = d.toJSON().slice(0, 10);
-        */
     if (wbName.value != null) {
       var filename = _file.value.slice(12, _file.value.length - 5) + "_complete";
-      //console.log(_file);
     } else {
       var filename = wbName.value + '_complete'
     }
@@ -66,8 +52,8 @@ window.addEventListener('load', function () {
     _grid.style.width = "810px";
   }
 
-  var _onsheet = function (json, sheetnames, select_sheet_cb) {
-
+  var _onsheet = function (json) {
+    var sortedCols = {};
     //reset everything.
     resultText.value = "";
     document.getElementById("resultText").style.backgroundColor = "white";
@@ -94,7 +80,7 @@ window.addEventListener('load', function () {
     firstRow = json[0];
 
     //Rearrange the columns
-    const sortedCols = sortColumns(firstRow);
+    sortedCols = sortColumns(firstRow);
 
     while (sortedCols.STOLOC.index === null || sortedCols.verifiedLUID.index === null || sortedCols.LUID.index === null) {
       json.forEach(item => {
@@ -109,24 +95,24 @@ window.addEventListener('load', function () {
       });
     }
 
-    const order = [sortedCols.STOLOC.index, sortedCols.LUID.index, sortedCols.verifiedLUID.index];
+    let order = [sortedCols.STOLOC.index, sortedCols.LUID.index, sortedCols.verifiedLUID.index];
 
     //Sort by floor number NRA3204X43200Y05Z12 where "4" is index 6
     json.forEach((loc, index) => {
       function sortThings(a, b) {
-          var nav1 = a[order[0]][3] + a[order[0]][4];
-          var nav2 = b[order[0]][3] + b[order[0]][4];
-          //if on the same floor
-          if (a[order[0]][6] == b[order[0]][6]) {
-            return nav1 > nav2 ? -1 : nav2 > nav1 ? 1 : 0;
-          } else {
-            return a[order[0]][6] > b[order[0]][6] ? -1 : b[order[0]][6] > a[order[0]][6] ? 1 : 0;
-          }
+        var nav1 = a[order[0]][3] + a[order[0]][4];
+        var nav2 = b[order[0]][3] + b[order[0]][4];
+        //if on the same floor
+        if (a[order[0]][6] == b[order[0]][6]) {
+          return nav1 > nav2 ? -1 : nav2 > nav1 ? 1 : 0;
+        } else {
+          return a[order[0]][6] > b[order[0]][6] ? -1 : b[order[0]][6] > a[order[0]][6] ? 1 : 0;
         }
-        json.sort(sortThings);
+      }
+      json.sort(sortThings);
     });
 
-    //console.log(order);
+    //Attempt to re-arrange the columns in the correct order. We get checklists in many different formats. 
     cdg.columnOrder = order;
 
     //write the headers.
@@ -134,6 +120,7 @@ window.addEventListener('load', function () {
       cdg.schema[index].title = item;
     });
 
+    /*data-grid attributes*/
     cdg.attributes.columnHeaderClickBehavior = 'none';
     cdg.style.columnHeaderCellHorizontalAlignment = 'right';
     cdg.attributes.selectionMode = 'row';
@@ -142,17 +129,14 @@ window.addEventListener('load', function () {
     //first row is the header now, remove it
     cdg.deleteRow(0);
 
+    /*run coordinate parser when row on sheet is clicked*/
     cdg.addEventListener('click', function (e) {
       //clear the input text for single coordinates.
       inputText.value = "";
-      if (!e.cell || e.cell.columnIndex !== 0) {
-        //columns have been rearranged check the order array.
-        parseData(e.cell.data[order[0]]);
-      } else {
-        parseData(e.cell.value);
-      }
+          console.log('order: ' + order + '\n' + 'orderlen: ' + order.length);
+      //columns have been rearranged check the order array.
+      parseData(e.cell.data[order[0]]);
     });
-
   };
 
   //Listen for the save button to be pressed
@@ -190,7 +174,6 @@ window.addEventListener('load', function () {
   };
 
   function sortColumns(r) {
-
     let cols = {
       STOLOC: {
         found: false,
@@ -213,7 +196,7 @@ window.addEventListener('load', function () {
         cols.STOLOC.found = true;
       }
       //check for the LUID string to identify column
-      if ((item.trim().toLowerCase().includes("lu", "id", "luid") && !(item.trim().toLowerCase().includes("erif"))) && cols.LUID.found == false) {
+      if ((item.trim().toLowerCase().includes("lu", "id", "luid", "tmp") && !(item.trim().toLowerCase().includes("erif"))) && cols.LUID.found == false) {
         cols.LUID.index = index;
         cols.LUID.found = true;
       }
@@ -228,7 +211,7 @@ window.addEventListener('load', function () {
 
   }
 
-  /** Drop it like it's hot **/
+  /**Dropsheet things**/
   DropSheet({
     file: _file,
     _filename,
