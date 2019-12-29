@@ -1,4 +1,5 @@
 window.addEventListener('load', function () {
+
   /** Spinner **/
   var spinner;
   var _workstart = function () {

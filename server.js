@@ -10,7 +10,7 @@ var path = require("path");
 var fs = require("fs");
 var checkMimeType = true;
 
-console.log("Starting web server at " + serverUrl + ":" + port);
+//console.log("Starting web server at " + serverUrl + ":" + port);
 
 http.createServer( function(req, res) {
 
