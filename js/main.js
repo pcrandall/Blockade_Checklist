@@ -15,13 +15,13 @@ window.addEventListener('load', function () {
     window.scrollTo(0, document.body.scrollHeight);
   }
   var _filename = function () {
-    /*
-    var d = new Date();
-    let m = d.toLocaleString('default', {
-      month: 'long'
-    });
-    d = d.toJSON().slice(0, 10);
-    */
+        /*
+        var d = new Date();
+        let m = d.toLocaleString('default', {
+          month: 'long'
+        });
+        d = d.toJSON().slice(0, 10);
+        */
     if (wbName.value != null) {
       var filename = _file.value.slice(12, _file.value.length - 5) + "_complete";
       //console.log(_file);
@@ -80,8 +80,7 @@ window.addEventListener('load', function () {
     /* show grid */
     _grid.style.display = "block";
     _resize();
-    //_scroll();
-    
+
     //need to check the header more thouroughly here. 
     //Check the length, make sure we have at least three columns for the sheet.
     if (json[0].length <= 2) {
@@ -91,35 +90,30 @@ window.addEventListener('load', function () {
     /* load data */
     cdg.data = json;
 
-    json.forEach(item => {
-      console.log('Row:  ' + item + '\n' + 'Len: ' + item.length);
-    })
-
     //first row is the header, save the first row for later use. 
     firstRow = json[0];
 
     //Rearrange the columns
-    let sortedCols = sortColumns(firstRow);
+    const sortedCols = sortColumns(firstRow);
 
-    if (sortedCols.STOLOC.index != null) {
-      //check for the luid or verified luid cols, if not found assign default params
-      if (sortedCols.LUID.index == null && sortedCols.verifiedLUID.index != 1) {
-        sortedCols.LUID.index = 1;
-      }
-      if (sortedCols.verifiedLUID.index == null && sortedCols.LUID.index != 2) {
-        sortedCols.verifiedLUID.index = 2;
-      }
-    } else {
-      //sort the cols with other data. 
+    while (sortedCols.STOLOC.index === null || sortedCols.verifiedLUID.index === null || sortedCols.LUID.index === null) {
+      json.forEach(item => {
+        //console.log(sortedCols);
+        let tmpCols = sortColumns(item);
+        if (sortedCols.STOLOC.index === null)
+          sortedCols.STOLOC.index = tmpCols.STOLOC.index;
+        if (sortedCols.LUID.index === null)
+          sortedCols.LUID.index = tmpCols.LUID.index;
+        if (sortedCols.verifiedLUID.index === null)
+          sortedCols.verifiedLUID.index = tmpCols.verifiedLUID.index;
+      });
     }
-    //console.log(sortedCols);
-    let order = [sortedCols.STOLOC.index, sortedCols.LUID.index, sortedCols.verifiedLUID.index];
+
+    const order = [sortedCols.STOLOC.index, sortedCols.LUID.index, sortedCols.verifiedLUID.index];
 
     //Sort by floor number NRA3204X43200Y05Z12 where "4" is index 6
     json.forEach((loc, index) => {
-
       function sortThings(a, b) {
-        if ((typeof a && typeof b) !== 'undefined') {
           var nav1 = a[order[0]][3] + a[order[0]][4];
           var nav2 = b[order[0]][3] + b[order[0]][4];
           //if on the same floor
@@ -130,15 +124,14 @@ window.addEventListener('load', function () {
           }
         }
         json.sort(sortThings);
-      }
     });
-    console.log(order);
+
+    //console.log(order);
     cdg.columnOrder = order;
 
     //write the headers.
     firstRow.forEach((item, index) => {
       cdg.schema[index].title = item;
-      //console.log(item);
     });
 
     cdg.attributes.columnHeaderClickBehavior = 'none';
@@ -214,25 +207,18 @@ window.addEventListener('load', function () {
     };
 
     r.forEach((item, index) => {
-
-      console.log('item ' + item);
-      console.log('index ' + index);
-
       //check to see if string exists STOLOC LUID Verified
-      console.log('STOLOC check ' + item.includes("STOLOC"));
-      if (item.toLowerCase().includes("stoloc", "loc", "sto", "location") && cols.STOLOC.found == false) {
+      if (item.trim().toLowerCase().includes("nra", "tga", "stoloc", "loc", "sto", "location") && cols.STOLOC.found == false) {
         cols.STOLOC.index = index;
         cols.STOLOC.found = true;
       }
       //check for the LUID string to identify column
-      console.log('LUID check  ' + (item.includes("LU") && !(item.includes("erif"))));
-      if ((item.toLowerCase().includes("lu", "id", "luid") && !(item.toLowerCase().includes("erif"))) && cols.LUID.found == false) {
+      if ((item.trim().toLowerCase().includes("lu", "id", "luid") && !(item.trim().toLowerCase().includes("erif"))) && cols.LUID.found == false) {
         cols.LUID.index = index;
         cols.LUID.found = true;
       }
       //check to see if verified exists within data (incomplete workbook)
-      console.log('Verified check ' + item.includes("erif"));
-      if (item.toLowerCase().includes("erif") && cols.verifiedLUID.found == false) {
+      if (item.trim().toLowerCase().includes("erif") && cols.verifiedLUID.found == false) {
         cols.verifiedLUID.index = index;
         cols.verifiedLUID.found = true;
       }
