@@ -81,7 +81,8 @@ window.addEventListener('load', function () {
     _grid.style.display = "block";
     _resize();
     //_scroll();
-
+    
+    //need to check the header more thouroughly here. 
     //Check the length, make sure we have at least three columns for the sheet.
     if (json[0].length <= 2) {
       json.unshift(["STOLOC", "LU", "Verified LU"]);
@@ -219,19 +220,19 @@ window.addEventListener('load', function () {
 
       //check to see if string exists STOLOC LUID Verified
       console.log('STOLOC check ' + item.includes("STOLOC"));
-      if ((item.includes("STOLOC") || item.includes("NRA") || item.includes("loc")) && cols.STOLOC.found == false) {
+      if (item.toLowerCase().includes("stoloc", "loc", "sto", "location") && cols.STOLOC.found == false) {
         cols.STOLOC.index = index;
         cols.STOLOC.found = true;
       }
       //check for the LUID string to identify column
       console.log('LUID check  ' + (item.includes("LU") && !(item.includes("erif"))));
-      if ((item.includes("LU") || item.includes("ID") && !(item.includes("erif"))) && cols.LUID.found == false) {
+      if ((item.toLowerCase().includes("lu", "id", "luid") && !(item.toLowerCase().includes("erif"))) && cols.LUID.found == false) {
         cols.LUID.index = index;
         cols.LUID.found = true;
       }
       //check to see if verified exists within data (incomplete workbook)
       console.log('Verified check ' + item.includes("erif"));
-      if (item.includes("erif") && cols.verifiedLUID.found == false) {
+      if (item.toLowerCase().includes("erif") && cols.verifiedLUID.found == false) {
         cols.verifiedLUID.index = index;
         cols.verifiedLUID.found = true;
       }
