@@ -82,43 +82,57 @@ window.addEventListener('load', function () {
     _resize();
     //_scroll();
 
-    //Sort by floor number NRA3204X43200Y05Z12 where "4" is index 6
-    json.forEach((loc, index) => {
-
-      function sortThings(a, b) {
-        var nav1 = a[0][3] + a[0][4];
-        var nav2 = b[0][3] + b[0][4];
-        //if on the same floor
-        if (a[0][6] == b[0][6]) {
-          return nav1 > nav2 ? -1 : nav2 > nav1 ? 1 : 0;
-        } else {
-          return a[0][6] > b[0][6] ? -1 : b[0][6] > a[0][6] ? 1 : 0;
-        }
-      }
-
-      json.sort(sortThings);
-    });
-
-
     //Check the length, make sure we have at least three columns for the sheet.
-    if (json[0].length < 2) {
+    if (json[0].length <= 2) {
       json.unshift(["STOLOC", "LU", "Verified LU"]);
     }
 
     /* load data */
     cdg.data = json;
 
+    json.forEach(item => {
+      console.log('Row:  ' + item + '\n' + 'Len: ' + item.length);
+    })
+
     //first row is the header, save the first row for later use. 
     firstRow = json[0];
 
+    //Rearrange the columns
     let sortedCols = sortColumns(firstRow);
-    console.log(sortedCols);
+
+    if (sortedCols.STOLOC.index != null) {
+      //check for the luid or verified luid cols, if not found assign default params
+      if (sortedCols.LUID.index == null && sortedCols.verifiedLUID.index != 1) {
+        sortedCols.LUID.index = 1;
+      }
+      if (sortedCols.verifiedLUID.index == null && sortedCols.LUID.index != 2) {
+        sortedCols.verifiedLUID.index = 2;
+      }
+    } else {
+      //sort the cols with other data. 
+    }
+    //console.log(sortedCols);
     let order = [sortedCols.STOLOC.index, sortedCols.LUID.index, sortedCols.verifiedLUID.index];
 
+    //Sort by floor number NRA3204X43200Y05Z12 where "4" is index 6
+    json.forEach((loc, index) => {
+
+      function sortThings(a, b) {
+        if ((typeof a && typeof b) !== 'undefined') {
+          var nav1 = a[order[0]][3] + a[order[0]][4];
+          var nav2 = b[order[0]][3] + b[order[0]][4];
+          //if on the same floor
+          if (a[order[0]][6] == b[order[0]][6]) {
+            return nav1 > nav2 ? -1 : nav2 > nav1 ? 1 : 0;
+          } else {
+            return a[order[0]][6] > b[order[0]][6] ? -1 : b[order[0]][6] > a[order[0]][6] ? 1 : 0;
+          }
+        }
+        json.sort(sortThings);
+      }
+    });
     console.log(order);
     cdg.columnOrder = order;
-
-
 
     //write the headers.
     firstRow.forEach((item, index) => {
@@ -130,7 +144,6 @@ window.addEventListener('load', function () {
     cdg.style.columnHeaderCellHorizontalAlignment = 'right';
     cdg.attributes.selectionMode = 'row';
     cdg.attributes.snapToRow = true;
-    //cdg.attributes.scrollIndexRect = 15
 
     //first row is the header now, remove it
     cdg.deleteRow(0);
@@ -139,7 +152,8 @@ window.addEventListener('load', function () {
       //clear the input text for single coordinates.
       inputText.value = "";
       if (!e.cell || e.cell.columnIndex !== 0) {
-        parseData(e.cell.data[0]);
+        //columns have been rearranged check the order array.
+        parseData(e.cell.data[order[0]]);
       } else {
         parseData(e.cell.value);
       }
@@ -205,7 +219,7 @@ window.addEventListener('load', function () {
 
       //check to see if string exists STOLOC LUID Verified
       console.log('STOLOC check ' + item.includes("STOLOC"));
-      if ((item.includes("STOLOC") || item.includes("NRA")) && cols.STOLOC.found == false) {
+      if ((item.includes("STOLOC") || item.includes("NRA") || item.includes("loc")) && cols.STOLOC.found == false) {
         cols.STOLOC.index = index;
         cols.STOLOC.found = true;
       }
