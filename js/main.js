@@ -134,7 +134,7 @@ window.addEventListener('load', function () {
     cdg.addEventListener('click', function (e) {
       //clear the input text for single coordinates.
       inputText.value = "";
-          console.log('order: ' + order + '\n' + 'orderlen: ' + order.length);
+      //console.log('order: ' + order + '\n' + 'orderlen: ' + order.length);
       //columns have been rearranged check the order array.
       parseData(e.cell.data[order[0]]);
     });
