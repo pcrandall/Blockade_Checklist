@@ -8,6 +8,7 @@ window.addEventListener('load', function () {
   var _workend = function () {
     spinner.stop();
   }
+
   /** filename input **/
   var _filename = function () {
     if (wbName.value != null) {
@@ -53,8 +54,18 @@ window.addEventListener('load', function () {
     _grid.style.width = "810px";
   }
 
+  var sortedCols = {};
+
+  /*run coordinate parser when row on sheet is clicked*/
+  cdg.addEventListener('click', function (e) {
+    //clear the input text for single coordinates.
+    inputText.value = "";
+    //columns have been rearranged check the order array.
+    console.log(cdg.data)
+    parseData(e.cell.data[sortedCols.STOLOC.index]);
+  });
+
   var _onsheet = function (json) {
-    var sortedCols = {};
     //reset everything.
     resultText.value = "";
     document.getElementById("resultText").style.backgroundColor = "white";
@@ -130,15 +141,9 @@ window.addEventListener('load', function () {
     //first row is the header now, remove it
     cdg.deleteRow(0);
 
-    /*run coordinate parser when row on sheet is clicked*/
-    cdg.addEventListener('click', function (e) {
-      //clear the input text for single coordinates.
-      inputText.value = "";
-      //console.log('order: ' + order + '\n' + 'orderlen: ' + order.length);
-      //columns have been rearranged check the order array.
-      parseData(e.cell.data[order[0]]);
-    });
+
   };
+
 
   //Listen for the save button to be pressed
   var sv = document.getElementById("save");
