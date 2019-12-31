@@ -140,7 +140,9 @@ window.addEventListener('load', function () {
     cdg.attributes.columnHeaderClickBehavior = 'none';
     cdg.style.columnHeaderCellHorizontalAlignment = 'right';
     cdg.attributes.selectionMode = 'row';
-    cdg.attributes.snapToRow = true;
+
+   //Add empty row at the end to make inputs work correctly. 
+    json.push(["","",""])
 
     //first row is the header now, remove it
     cdg.deleteRow(0);
