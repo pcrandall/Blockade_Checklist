@@ -94,16 +94,21 @@ window.addEventListener('load', function () {
     sortedCols = sortColumns(firstRow);
 
     while (sortedCols.STOLOC.index === null || sortedCols.verifiedLUID.index === null || sortedCols.LUID.index === null) {
-      json.forEach(item => {
-        //console.log(sortedCols);
-        let tmpCols = sortColumns(item);
-        if (sortedCols.STOLOC.index === null)
-          sortedCols.STOLOC.index = tmpCols.STOLOC.index;
-        if (sortedCols.LUID.index === null)
-          sortedCols.LUID.index = tmpCols.LUID.index;
-        if (sortedCols.verifiedLUID.index === null)
-          sortedCols.verifiedLUID.index = tmpCols.verifiedLUID.index;
-      });
+      let index = 0;
+      while (index < json.length) {
+        json.forEach(item => {
+          //console.log(sortedCols);
+          let tmpCols = sortColumns(item);
+          if (sortedCols.STOLOC.index === null)
+            sortedCols.STOLOC.index = tmpCols.STOLOC.index;
+          if (sortedCols.LUID.index === null)
+            sortedCols.LUID.index = tmpCols.LUID.index;
+          if (sortedCols.verifiedLUID.index === null)
+            sortedCols.verifiedLUID.index = tmpCols.verifiedLUID.index;
+            console.log(index);
+          index++;
+        });
+      }
     }
 
     let order = [sortedCols.STOLOC.index, sortedCols.LUID.index, sortedCols.verifiedLUID.index];
@@ -193,17 +198,17 @@ window.addEventListener('load', function () {
 
     r.forEach((item, index) => {
       //check to see if string exists STOLOC LUID Verified
-      if (item.trim().toLowerCase().includes("nra", "tga", "stoloc", "loc", "sto", "location") && cols.STOLOC.found == false) {
+      if (item.toLowerCase().includes("nra", "tga", "tpa", "stoloc", "loc", "sto", "location") && cols.STOLOC.found == false) {
         cols.STOLOC.index = index;
         cols.STOLOC.found = true;
       }
       //check for the LUID string to identify column
-      if ((item.trim().toLowerCase().includes("lu", "id", "luid", "tmp") && !(item.trim().toLowerCase().includes("erif"))) && cols.LUID.found == false) {
+      if ((item.toLowerCase().includes("lu", "id", "luid", "tmp", "tote", "expect") && !(item.trim().toLowerCase().includes("erif"))) && cols.LUID.found == false) {
         cols.LUID.index = index;
         cols.LUID.found = true;
       }
       //check to see if verified exists within data (incomplete workbook)
-      if (item.trim().toLowerCase().includes("erif") && cols.verifiedLUID.found == false) {
+      if (item.toLowerCase().includes("erif") && cols.verifiedLUID.found == false) {
         cols.verifiedLUID.index = index;
         cols.verifiedLUID.found = true;
       }
