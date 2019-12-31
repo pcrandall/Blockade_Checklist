@@ -61,7 +61,6 @@ window.addEventListener('load', function () {
     //clear the input text for single coordinates.
     inputText.value = "";
     //columns have been rearranged check the order array.
-    console.log(cdg.data)
     parseData(e.cell.data[sortedCols.STOLOC.index]);
   });
 
