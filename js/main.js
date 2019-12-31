@@ -50,7 +50,7 @@ window.addEventListener('load', function () {
   cdg.style.width = '100%';
 
   function _resize() {
-    _grid.style.height = "150px";
+    _grid.style.height = "146px";
     _grid.style.width = "810px";
   }
 
@@ -140,10 +140,7 @@ window.addEventListener('load', function () {
 
     //first row is the header now, remove it
     cdg.deleteRow(0);
-
-
   };
-
 
   //Listen for the save button to be pressed
   var sv = document.getElementById("save");
@@ -212,9 +209,7 @@ window.addEventListener('load', function () {
         cols.verifiedLUID.found = true;
       }
     })
-
     return cols;
-
   }
 
   /**Dropsheet things**/
