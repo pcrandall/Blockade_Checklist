@@ -52,7 +52,7 @@ function parseData(e) {
         // NRA check
         if (inputText[0] != "N" || inputText[1] != "R" || inputText[2] != "A") {
             document.getElementById("resultText").style.backgroundColor = "red";
-            if (inputText[0] == "T" && (inputText[1] == ("G") || inputText[1] == ("P")) && inputText[2] == "A") {
+            if (inputText[0] == "T" && (inputText[1] == "G" || inputText[1] == "P") && inputText[2] == "A") {
                 transferPos = true;
                 document.getElementById("resultText").value = "Transfer position!";
                 document.getElementById("resultText").style.backgroundColor = "yellow";
@@ -139,7 +139,6 @@ function parseData(e) {
             if (zValue == rack[i]) {
                 document.getElementById("x" + rack[i]).style.backgroundColor = "yellow";
                 document.getElementById("ztable").innerHTML = zValue;
-                document.getElementById("resultText").value = "Success!";
                 break;
             } else {};
         }
