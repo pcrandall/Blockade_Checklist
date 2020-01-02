@@ -84,8 +84,22 @@ window.addEventListener('load', function () {
       json.unshift(["STOLOC", "LU", "Verified LU"]);
     }
 
+    //create an object and filter out duplicates and empty lines. 
+    let uniq = {};
+
+    uniq = json.filter(function (loc) {
+      var key = loc[0];
+      if (!key) {
+        return
+      } else if (uniq[key]) {
+        return false;
+      } else {
+        return (uniq[key] = true);
+      }
+    });
+
     /* load data */
-    cdg.data = json;
+    cdg.data = json = uniq;
 
     //first row is the header, save the first row for later use. 
     firstRow = json[0];
@@ -105,7 +119,7 @@ window.addEventListener('load', function () {
             sortedCols.LUID.index = tmpCols.LUID.index;
           if (sortedCols.verifiedLUID.index === null)
             sortedCols.verifiedLUID.index = tmpCols.verifiedLUID.index;
-            console.log(index);
+          console.log(index);
           index++;
         });
       }
@@ -114,7 +128,8 @@ window.addEventListener('load', function () {
     let order = [sortedCols.STOLOC.index, sortedCols.LUID.index, sortedCols.verifiedLUID.index];
 
     //Sort by floor number NRA3204X43200Y05Z12 where "4" is index 6
-    json.forEach((loc, index) => {
+    json.forEach(() => {
+
       function sortThings(a, b) {
         var nav1 = a[order[0]][3] + a[order[0]][4];
         var nav2 = b[order[0]][3] + b[order[0]][4];
@@ -141,8 +156,8 @@ window.addEventListener('load', function () {
     cdg.style.columnHeaderCellHorizontalAlignment = 'right';
     cdg.attributes.selectionMode = 'row';
 
-   //Add empty row at the end to make inputs work correctly. 
-    json.push(["","",""])
+    //Add empty row at the end to make inputs work correctly. 
+    json.push(["", "", ""])
 
     //first row is the header now, remove it
     cdg.deleteRow(0);
