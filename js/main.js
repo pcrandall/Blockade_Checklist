@@ -111,7 +111,6 @@ window.addEventListener('load', function () {
       let index = 0;
       while (index < json.length) {
         json.forEach(item => {
-          //console.log(sortedCols);
           let tmpCols = sortColumns(item);
           if (sortedCols.STOLOC.index === null)
             sortedCols.STOLOC.index = tmpCols.STOLOC.index;
@@ -119,7 +118,6 @@ window.addEventListener('load', function () {
             sortedCols.LUID.index = tmpCols.LUID.index;
           if (sortedCols.verifiedLUID.index === null)
             sortedCols.verifiedLUID.index = tmpCols.verifiedLUID.index;
-          console.log(index);
           index++;
         });
       }
