@@ -100,7 +100,9 @@
 
         html {
             overflow-x: auto;
-            overflow-y: auto;
+            position: relative;
+            min-width: 1200px;
+            min-height: 800px;
         }
 
         p,
@@ -118,6 +120,7 @@
             font-size: 20px;
             padding: 8px;
         }
+
         .filename {
             font-size: 12px;
         }
