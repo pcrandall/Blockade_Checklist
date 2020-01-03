@@ -166,9 +166,6 @@ window.addEventListener('load', function () {
     cdg.columnOrder = order;
 
     //write the headers.
-    firstRow = [firstRow[order[0]], firstRow[order[1]], firstRow[order[2]]]
-    //console.log(firstRow);
-
     firstRow.forEach((item, index) => {
       cdg.schema[index].title = item;
     });
