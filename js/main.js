@@ -55,6 +55,9 @@ window.addEventListener('load', function () {
   }
 
   var sortedCols = {};
+  var _stoloc = ["nra", "tga", "tpa", "stoloc", "loc", "sto", "location"]
+  var _luid = ["lu", "id", "luid", "tmp", "tote", "expect"]
+  var _verified = ["erif"]
 
   /*run coordinate parser when row on sheet is clicked*/
   cdg.addEventListener('click', function (e) {
@@ -63,6 +66,15 @@ window.addEventListener('load', function () {
     //columns have been rearranged check the order array.
     parseData(e.cell.data[sortedCols.STOLOC.index]);
   });
+
+  function contains(target, pattern) {
+    var value = 0;
+    pattern.forEach(function (word) {
+      value = value + target.includes(word);
+    });
+    console.log('target: ' + target + '\npattern: ' + pattern + '\nvalue: ' + value)
+    return (value)
+  }
 
   var _onsheet = function (json) {
     //reset everything.
@@ -88,7 +100,9 @@ window.addEventListener('load', function () {
     let uniq = {};
 
     uniq = json.filter(function (loc) {
-      var key = loc[0];
+      var key = loc.forEach((item) => {
+        return item
+      });
       if (!key) {
         return
       } else if (uniq[key]) {
@@ -101,26 +115,33 @@ window.addEventListener('load', function () {
     /* load data */
     cdg.data = json = uniq;
 
-    //first row is the header, save the first row for later use. 
+  //first row is the header, save the first row for later use. 
     firstRow = json[0];
+    console.log(firstRow);
 
     //Rearrange the columns
     sortedCols = sortColumns(firstRow);
 
-    while (sortedCols.STOLOC.index === null || sortedCols.verifiedLUID.index === null || sortedCols.LUID.index === null) {
-      let index = 0;
-      while (index < json.length) {
-        json.forEach(item => {
-          let tmpCols = sortColumns(item);
-          if (sortedCols.STOLOC.index === null)
-            sortedCols.STOLOC.index = tmpCols.STOLOC.index;
-          if (sortedCols.LUID.index === null)
-            sortedCols.LUID.index = tmpCols.LUID.index;
-          if (sortedCols.verifiedLUID.index === null)
-            sortedCols.verifiedLUID.index = tmpCols.verifiedLUID.index;
-          index++;
-        });
-      }
+
+    let index = 0;
+
+    while ((sortedCols.STOLOC.index === null ||
+        sortedCols.verifiedLUID.index === null ||
+        sortedCols.LUID.index === null) &&
+      (index < json.length)) {
+
+      json.forEach(item => {
+        let tmpCols = sortColumns(item);
+    //    console.log(tmpCols);
+        if (sortedCols.STOLOC.index === null)
+          sortedCols.STOLOC.index = tmpCols.STOLOC.index;
+        if (sortedCols.LUID.index === null)
+          sortedCols.LUID.index = tmpCols.LUID.index;
+        if (sortedCols.verifiedLUID.index === null)
+          sortedCols.verifiedLUID.index = tmpCols.verifiedLUID.index;
+        index++;
+      });
+
     }
 
     let order = [sortedCols.STOLOC.index, sortedCols.LUID.index, sortedCols.verifiedLUID.index];
@@ -143,8 +164,14 @@ window.addEventListener('load', function () {
 
     //Attempt to re-arrange the columns in the correct order. We get checklists in many different formats. 
     cdg.columnOrder = order;
+    //console.log(sortedCols);
 
     //write the headers.
+    //firstRow = [firstRow[order[0]], firstRow[order[1]], firstRow[order[2]]]
+    //console.log(firstRow);
+
+    console.log(cdg.schema);
+    console.log(firstRow);
     firstRow.forEach((item, index) => {
       cdg.schema[index].title = item;
     });
@@ -213,17 +240,17 @@ window.addEventListener('load', function () {
 
     r.forEach((item, index) => {
       //check to see if string exists STOLOC LUID Verified
-      if (item.toLowerCase().includes("nra", "tga", "tpa", "stoloc", "loc", "sto", "location") && cols.STOLOC.found == false) {
+      if (contains(item.toLowerCase(), _stoloc) >= 1 && cols.STOLOC.found == false) {
         cols.STOLOC.index = index;
         cols.STOLOC.found = true;
       }
       //check for the LUID string to identify column
-      if ((item.toLowerCase().includes("lu", "id", "luid", "tmp", "tote", "expect") && !(item.trim().toLowerCase().includes("erif"))) && cols.LUID.found == false) {
+      if (contains(item.toLowerCase(), _luid) >= 1 && contains(item.toLowerCase(), _verified) !== 1 && cols.LUID.found == false) {
         cols.LUID.index = index;
         cols.LUID.found = true;
       }
       //check to see if verified exists within data (incomplete workbook)
-      if (item.toLowerCase().includes("erif") && cols.verifiedLUID.found == false) {
+      if (contains(item.toLowerCase(), _verified) >= 1 && cols.verifiedLUID.found == false) {
         cols.verifiedLUID.index = index;
         cols.verifiedLUID.found = true;
       }
@@ -234,7 +261,6 @@ window.addEventListener('load', function () {
   /**Dropsheet things**/
   DropSheet({
     file: _file,
-    _filename,
     drop: _target,
     on: {
       workstart: _workstart,
