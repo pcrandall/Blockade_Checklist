@@ -1,5 +1,3 @@
-const server = require('./myServer');
-
 window.addEventListener('load', function () {
 
   /** Spinner **/
