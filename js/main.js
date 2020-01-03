@@ -1,4 +1,4 @@
-var server = require('server');
+const server = require('../server');
 
 window.addEventListener('load', function () {
 
