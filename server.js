@@ -1,5 +1,9 @@
+module.exports = {
+	myServer	
+ }
 // A very basic web server in node.js
 // Stolen from: Node.js for Front-End Developers by Garann Means (p. 9-10)
+function myServer(){
 
 var port = 3000;
 var serverUrl = "127.0.0.1";
@@ -71,4 +75,5 @@ function getFile(localPath, res, mimeType) {
 			res.end();
 		}
 	});
+}
 }
