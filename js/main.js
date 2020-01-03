@@ -1,3 +1,5 @@
+var server = require('server');
+
 window.addEventListener('load', function () {
 
   /** Spinner **/
