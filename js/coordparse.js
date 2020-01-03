@@ -52,14 +52,11 @@ function parseData(e) {
         var inputText = e;
     }
 
-    console.log(inputText);
-
     var transferPos = false;
-    var resVal = document.getElementById("resultText");
-    var resBg = document.getElementById("resultText");
+    var result = document.getElementById("resultText");
 
-    resVal.value = "Success!";
-    resBg.style.backgroundColor = "lime";
+    result.value = "Success!";
+    result.style.backgroundColor = "lime";
 
     // Reset the shelf indicator. 
     document.getElementsByClassName("shelf").backgroundColor = "#7A8B99";
@@ -67,6 +64,7 @@ function parseData(e) {
     var xValue = inputText.substring(inputText.lastIndexOf("X") + 1, inputText.lastIndexOf("Y"));
     var yValue = inputText.substring(inputText.lastIndexOf("Y") + 1, inputText.lastIndexOf("Z"));
     var zValue = inputText.substring(inputText.lastIndexOf("Z") + 1);
+    var aValue = inputText.substring(inputText.lastIndexOf("A") + 1, inputText.lastIndexOf("X"));
 
     //reset the shelf indicators. 
     for (var i = 0; i < shelf.length; i++) {
@@ -75,30 +73,30 @@ function parseData(e) {
 
     // Empty check
     if (inputText == "" || inputText == null) {
-        document.getElementById("resultText").value = "Empty!";
-        document.getElementById("resultText").style.backgroundColor = "red";
+        result.value = "Empty!";
+        result.style.backgroundColor = "red";
     }
     // Length check
-    if (inputText.length < 14 || inputText.length > 20) {
-        document.getElementById("resultText").value = "Invalid length!";
-        document.getElementById("resultText").style.backgroundColor = "red";
+    else if (inputText.length < 14 || inputText.length > 20) {
+        result.value = "Invalid length!";
+        result.style.backgroundColor = "red";
     } else {
         //Storage / Transfer location check. 
         if (inputText[0] != "N" || inputText[1] != "R" || inputText[2] != "A") {
-            document.getElementById("resultText").style.backgroundColor = "red";
+
+            result.style.backgroundColor = "red";
+            //Transfer position check. 
             if ((inputText[0] == "T" && (inputText[1] == "G" || inputText[1] == "P") && inputText[2] == "A") &&
                 (validTranfer(xValue) === true)) {
                 transferPos = true;
-                resVal.value = "Transfer position!";
-                resBg.style.backgroundColor = "yellow";
+                result.value = "Transfer position!";
+                result.style.backgroundColor = "yellow";
             } else {
-                resVal.value = "Not a rack location!";
+                result.value = "Not a rack location!";
             }
-        }
-        var aValue = inputText.substring(inputText.lastIndexOf("A") + 1, inputText.lastIndexOf("X"));
-        if ((aValue.length != 4) || (isNaN(parseInt(aValue)))) {
-            resBg.style.backgroundColor = "red";
-            resVal.value = "Invalid aisle value!";
+        } else if ((aValue.length != 4) || (isNaN(parseInt(aValue)))) {
+            result.value = "Invalid aisle value!";
+            result.style.backgroundColor = "red";
         } else {
             var aValueArr = aValue.split("");
             aValueArr[2] = "1";
@@ -113,13 +111,12 @@ function parseData(e) {
             }
             document.getElementById("xtable").innerHTML = xValue;
             if (isNaN(parseInt(xValue))) {
-                resBg.style.backgroundColor = "red";
-                resVal.value = "Invalid X: not a number!";
+                result.value = "Invalid X: not a number!";
+                result.style.backgroundColor = "red";
             } else {
-                //console.log(transferPos);
                 if (xValues.indexOf(parseInt(xValue)) == -1 && transferPos == false) {
-                    resBg.style.backgroundColor = "red";
-                    resVal.value = "Invalid X value!";
+                    result.style.backgroundColor = "red";
+                    result.value = "Invalid X value!";
                 } else {
                     var fValue = 0;
                     while (xValue > -1) {
@@ -136,6 +133,7 @@ function parseData(e) {
             validHeight(yValue, zValue);
             resetLocation(zValue);
             validLocation(zValue);
+
         }
     }
 
@@ -143,11 +141,8 @@ function parseData(e) {
         for (var i = 0; i < rack.length; i++) {
             if (zValue != rack[i]) {
                 document.getElementById("x" + rack[i]).style.backgroundColor = "#7A8B99";
-            } else {
-
-            };
+            }
         }
-
     }
 
     function validLocation(zValue) {
@@ -162,8 +157,8 @@ function parseData(e) {
                 document.getElementById("x21").style.backgroundColor = "yellow";
                 document.getElementById("ztable").innerHTML = zValue + "1";
             } else {
-                document.getElementById("resultText").style.backgroundColor = "red";
-                document.getElementById("resultText").value = "Invalid Z value!";
+                res.style.backgroundColor = "red";
+                res.value = "Invalid Z value!";
                 document.getElementById("ztable").innerHTML = "Invalid Z value!";
             }
         }
@@ -173,7 +168,7 @@ function parseData(e) {
                 document.getElementById("x" + rack[i]).style.backgroundColor = "yellow";
                 document.getElementById("ztable").innerHTML = zValue;
                 break;
-            } else {};
+            }
         }
 
     }
@@ -188,23 +183,19 @@ function parseData(e) {
                     document.getElementById("r" + yValue).style.backgroundColor = "yellow";
                 }
                 break;
-            } else {}
+            }
         }
     }
 
     function validTranfer(x) {
         x = parseInt(x);
-        console.log(x);
         let bool = false;
         if ((x >= transfers.pos1.min && x <= transfers.pos1.max) ||
             (x >= transfers.pos2.min && x <= transfers.pos2.max) ||
             (x >= transfers.pos3.min && x <= transfers.pos3.max) ||
             (x >= transfers.pos4.min && x <= transfers.pos4.max)) {
-                bool = true;
-            return bool;
-        } else {
-            return;
+            bool = true;
         }
-
+        return bool;
     }
 }
