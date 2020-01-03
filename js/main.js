@@ -100,9 +100,12 @@ window.addEventListener('load', function () {
     let uniq = {};
 
     uniq = json.filter(function (loc) {
+      /*
       var key = loc.forEach((item) => {
         return item
       });
+      */
+      var key = loc[0];
       if (!key) {
         return
       } else if (uniq[key]) {
@@ -117,7 +120,6 @@ window.addEventListener('load', function () {
 
   //first row is the header, save the first row for later use. 
     firstRow = json[0];
-    console.log(firstRow);
 
     //Rearrange the columns
     sortedCols = sortColumns(firstRow);
@@ -132,7 +134,6 @@ window.addEventListener('load', function () {
 
       json.forEach(item => {
         let tmpCols = sortColumns(item);
-    //    console.log(tmpCols);
         if (sortedCols.STOLOC.index === null)
           sortedCols.STOLOC.index = tmpCols.STOLOC.index;
         if (sortedCols.LUID.index === null)
@@ -141,7 +142,6 @@ window.addEventListener('load', function () {
           sortedCols.verifiedLUID.index = tmpCols.verifiedLUID.index;
         index++;
       });
-
     }
 
     let order = [sortedCols.STOLOC.index, sortedCols.LUID.index, sortedCols.verifiedLUID.index];
@@ -164,14 +164,11 @@ window.addEventListener('load', function () {
 
     //Attempt to re-arrange the columns in the correct order. We get checklists in many different formats. 
     cdg.columnOrder = order;
-    //console.log(sortedCols);
 
     //write the headers.
-    //firstRow = [firstRow[order[0]], firstRow[order[1]], firstRow[order[2]]]
+    firstRow = [firstRow[order[0]], firstRow[order[1]], firstRow[order[2]]]
     //console.log(firstRow);
 
-    console.log(cdg.schema);
-    console.log(firstRow);
     firstRow.forEach((item, index) => {
       cdg.schema[index].title = item;
     });
