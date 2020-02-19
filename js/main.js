@@ -57,7 +57,7 @@ window.addEventListener('load', function () {
   var sortedCols = {};
   var _stoloc = ["nra", "tga", "tpa", "stoloc", "loc", "sto", "location"]
   var _luid = ["lu", "id", "luid", "tmp", "tote", "expect"]
-  var _verified = ["erif"]
+  var _verified = ["erif", "found"]
 
   /*run coordinate parser when row on sheet is clicked*/
   cdg.addEventListener('click', function (e) {
@@ -72,7 +72,7 @@ window.addEventListener('load', function () {
     pattern.forEach(function (word) {
       value = value + target.includes(word);
     });
-    console.log('target: ' + target + '\npattern: ' + pattern + '\nvalue: ' + value)
+    //console.log('target: ' + target + '\npattern: ' + pattern + '\nvalue: ' + value)
     return (value)
   }
 
@@ -118,7 +118,7 @@ window.addEventListener('load', function () {
     /* load data */
     cdg.data = json = uniq;
 
-  //first row is the header, save the first row for later use. 
+    //first row is the header, save the first row for later use. 
     firstRow = json[0];
 
     //Rearrange the columns
@@ -137,11 +137,32 @@ window.addEventListener('load', function () {
         if (sortedCols.STOLOC.index === null)
           sortedCols.STOLOC.index = tmpCols.STOLOC.index;
         if (sortedCols.LUID.index === null)
-          sortedCols.LUID.index = tmpCols.LUID.index;
+          sortedCols.LUID.iforEach = tmpCols.LUID.index;
         if (sortedCols.verifiedLUID.index === null)
           sortedCols.verifiedLUID.index = tmpCols.verifiedLUID.index;
         index++;
       });
+    }
+
+    // Check for columns not identified, assign order to whatever one is not used. 
+    var tmp = Object.values(sortedCols);
+    var found = [];
+
+    tmp.forEach(  (col) => {
+      var key = col.index;
+      if (key !== null) found.push(key);
+    });
+
+    for (let i = 0; i < firstRow.length; i++) {
+      if (found.indexOf(i) === -1) {
+        if (sortedCols.STOLOC.index === null) {
+          sortedCols.STOLOC.index = i;
+        } else if (sortedCols.LUID.index === null) {
+          sortedCols.LUID.index = i;
+        } else if (sortedCols.verifiedLUID.index === null) {
+          sortedCols.verifiedLUID.index = i;
+        }
+      }
     }
 
     let order = [sortedCols.STOLOC.index, sortedCols.LUID.index, sortedCols.verifiedLUID.index];
