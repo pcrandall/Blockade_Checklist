@@ -4,20 +4,19 @@
   "description": "A tool for checking mfs coordinates. ",
   "main": "webserver.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "pkg Server.js -o Blockade.exe --target node10-win-x64"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/make-go-fast-good/Blockade-.git"
+    "url": "git+https://github.com/pcrandall/matrixParser.git"
   },
-  "author": "phillip.crandall",
+  "author": "p.crandall",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/make-go-fast-good/Blockade-/issues"
+    "url": "https://github.com/pcrandall/matrixParser.git"
   },
-  "homepage": "https://github.com/make-go-fast-good/Blockade-#readme",
   "dependencies": {
-    "http-server": "^0.12.0",
+    "http-server": "^0.12.3",
     "opn": "^6.0.0"
   }
 }
