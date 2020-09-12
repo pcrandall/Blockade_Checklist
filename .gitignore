@@ -2,4 +2,7 @@ node_modules
 .gitignore
 package-lock.json
 package.json
-Matrix_coords.exe
+Blockade Checklist.exe
+*.docx
+harddrive*
+
